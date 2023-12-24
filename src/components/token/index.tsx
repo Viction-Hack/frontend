@@ -1,12 +1,8 @@
-import Link from "next/link"
-import Header from "../ui/Header"
-import Footer from "../ui/Footer"
+import Link from "next/link";
 
-export default function LandingPage() {
+export default function Token() {
   return (
-    <>
-      <Header />
-      <main className="flex-1 flex-row justify-center items-center min-h-screen">
+    <main className="flex-1 flex-row justify-center items-center min-h-screen">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
@@ -69,7 +65,5 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <Footer />
-    </>
-  )
+  );
 }

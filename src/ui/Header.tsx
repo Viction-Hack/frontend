@@ -12,11 +12,11 @@ export default function Header() {
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
           About
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-          Stablecoin Info
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/dashboard">
+          Dashboard
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-          How it Works
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/token">
+          Mint & Redeem
         </Link>
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
           Contact
