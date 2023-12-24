@@ -14,8 +14,8 @@ export default function Dashboard() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-green-50 dark:bg-gray-800 w-3/5">
-          <div className="container px-4 md:px-6">
+        <section className="w-3/5 mx-auto items-center py-12 md:py-24 lg:py-32 bg-green-50 dark:bg-gray-800">
+          <div className="container mx-auto px-4 md:px-6">
             <UserBox />
             <VusdBox />
           </div>

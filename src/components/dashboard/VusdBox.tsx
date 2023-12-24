@@ -1,14 +1,9 @@
 export default function VusdBox() {
   return (
-    <div className="flex flex-col justify-center items-center space-y-4">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold tracking-tighter sm:text-xl">
-          VUSD Status Overview
-        </h2>
-      </div>
+    <div className="flex flex-col justify-center items-center mx-auto mb-3">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg p-6 w-3/5">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Total Issued</h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">VUSD Overview</h3>
         </div>
         <div className="border-t border-gray-200">
           <dl>
