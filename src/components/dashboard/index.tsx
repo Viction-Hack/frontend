@@ -12,7 +12,7 @@ export default function Dashboard() {
                 Dashboard
               </h1>
               <h2 className="text-m sm:text-l md:text-xl lg:text-2xl/none">
-                Check your wallet and VUSD status
+                Check your wallet and DUSD status
               </h2>
             </div>
           </div>

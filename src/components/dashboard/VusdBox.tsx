@@ -3,7 +3,7 @@ export default function VusdBox() {
     <div className="flex flex-col justify-center items-center mx-auto mb-3">
       <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 m-3">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">VUSD Overview</h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">DUSD Overview</h3>
         </div>
         <div className="border-t border-gray-200">
           <dl>

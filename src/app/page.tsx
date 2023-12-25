@@ -13,10 +13,10 @@ export default function LandingPage() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  DeltaNeutral Stablecoin
+                  Doldrums
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  The perfect blend of traditional finance and web3. Experience the stability of a delta-neutral
+                  Experience the stability of a delta-neutral
                   stablecoin.
                 </p>
               </div>
@@ -42,13 +42,13 @@ export default function LandingPage() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-                  DeltaNeutral Stablecoin
+                  Doldrums
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Where Traditional Finance Meets Web3
+                  Delta-Neutral Stablecoin
                 </h2>
                 <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  DeltaNeutral Stablecoin combines the best of both worlds to provide a stable, reliable, and secure
+                  DUSD, a stablecoin at Doldrums leverages delta-neutral strategies to provide a stable, reliable, and secure
                   cryptocurrency for all your financial needs.
                 </p>
               </div>
