@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@web3modal/ethers5": "^3.5.2",
+    "@web3modal/ethers5": "^3.4.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
@@ -19,6 +19,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-table": "^7.7.18",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
