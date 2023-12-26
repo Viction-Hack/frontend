@@ -7,7 +7,7 @@ import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
 import { useMint } from '@/hooks/useMint';
-import { ERC20_ABI } from '@/utils/constants/address';
+import { ERC20_ABI } from '@/utils/constants/constants';
 
 type Token = {
   name: string;
@@ -51,7 +51,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
   let ethersProvider: ethers.providers.Web3Provider;
 
   const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
-    console.log(newNetwork.chainId);
     setNetwork(newNetwork.chainId);
     setIsViction(newNetwork.chainId === 89); // Assuming 89 is the chainId for Viction
   };
@@ -64,7 +63,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
   useEffect(() => {
     if (walletProvider) {
       setIsConnected(true);
-      console.log('walletProvider', walletProvider);
       ethersProvider = new ethers.providers.Web3Provider(walletProvider);
       ethersProvider.getNetwork().then(handleNetworkChange).catch(console.error);
     } else {

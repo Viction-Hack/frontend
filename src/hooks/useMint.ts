@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ethers, Signer, BigNumber } from 'ethers';
-import { CONTROLLER_ABI, CONTROLLER_ADDR } from '@/utils/constants/address';
+import { CONTROLLER_ABI, CONTROLLER_ADDR } from '@/utils/constants/constants';
 
 interface UseMintHook {
   mint: () => Promise<void>;
@@ -69,7 +69,7 @@ export const useMint = (
         setError(err);
       }
     }
-  }, [getSigner, getContractDetails]);
+  }, [getSigner, getContractDetails, getSelectedToken, getCollateralAmount, getMinDUSDCAmount]);
 
   return { mint, error };
 };

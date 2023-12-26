@@ -1,3 +1,6 @@
+import { tokenList } from "./tokenlist";
+
+const tokensList = tokenList();
 export const CONTROLLER_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 export const CONTROLLER_ABI = [
     {
@@ -25,11 +28,27 @@ export const CONTROLLER_ABI = [
         ],
       "outputs":[],
       "stateMutability":"nonpayable"
+    },
+    {
+      "type":"function",
+      "name":"redeem",
+      "inputs":
+        [
+          {"name":"underlying","type":"address","internalType":"address"},
+          {"name":"receiver","type":"address","internalType":"address"},
+          {"name":"dusdAmountIn","type":"uint256","internalType":"uint256"},
+          {"name":"minCollateralAmountOut","type":"uint256","internalType":"uint256"},
+          {"name":"deadline","type":"uint256","internalType":"uint256"}
+        ],
+      "outputs":[],
+      "stateMutability":"nonpayable"
     }
 ];
 
-export const VICTION_DAI_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-export const VICTION_ETH_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const VICTION_DAI_ADDR = tokensList[1].address;
+export const VICTION_ETH_ADDR = tokensList[2].address;
+export const DUSD_ADDR = tokensList[3].address;
+
 export const ERC20_ABI = [
     {
         inputs: [

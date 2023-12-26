@@ -47,7 +47,7 @@ export default function ActionBox() {
         </div>
         <div>
           {isMinting ? 
-            <MintBox slippage={selectedSlippage} /> : <RedeemBox /> 
+            <MintBox slippage={selectedSlippage} /> : <RedeemBox slippage={selectedSlippage} /> 
           }
         </div>
       </div>
