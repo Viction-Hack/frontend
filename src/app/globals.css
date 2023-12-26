@@ -26,18 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.green-gradient {
-  background: linear-gradient(to bottom, 
-              rgb(77, 245, 77) 0%, 
-              rgb(236, 245, 236) 50%,
-              rgb(255, 255, 255) 50%, 
-              rgb(255, 255, 255) 100%);
-}
-
-.green-gradient-header {
-  background: linear-gradient(to top, 
-              rgb(77, 245, 77) 0%, 
-              rgb(120, 252, 120) 50%,
-              rgb(166, 248, 149) 50%, 
-              rgb(153, 253, 140) 100%);
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
