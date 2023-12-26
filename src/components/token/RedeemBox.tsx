@@ -118,7 +118,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
               className="w-full pl-7 pr-12 bg-transparent text-lg rounded-md"
               placeholder="0"
             />
-          <p className='flex items-center ml-3'>DUSD</p>
+          <p className='flex items-center p-3'>DUSD</p>
         </div>
         
         <div className="flex flex-col items-end mb-10 p-3">
