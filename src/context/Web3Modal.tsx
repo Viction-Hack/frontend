@@ -14,6 +14,14 @@ const victionTestnet = {
   rpcUrl: 'https://rpc.testnet.tomochain.com/'
 }
 
+const arbitrumSepolia = {
+  chainId: 421614,
+  name: 'Arbitrum Sepolia',
+  currency: 'ETH',
+  explorerUrl: 'https://sepolia-explorer.arbitrum.io/',
+  rpcUrl: 'https://sepolia-rollup.arbitrum.io/rpc'
+}
+
 // 3. Create modal
 const metadata = {
   name: 'DeltaNeutral Stablecoin',
@@ -24,7 +32,8 @@ const metadata = {
 
 createWeb3Modal({
   ethersConfig: defaultConfig({ metadata }),
-  chains: [victionTestnet],
+  chains: [victionTestnet, arbitrumSepolia],
+  defaultChain: victionTestnet,
   projectId,
   themeMode: 'light',
   themeVariables: {

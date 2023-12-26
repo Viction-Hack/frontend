@@ -6,9 +6,12 @@ import calculateExchangeRate from '@/utils/calculateExchangeRate';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
+import { useMint } from '@/hooks/useMint';
+import { ERC20_ABI } from '@/utils/constants/address';
 
 type Token = {
   name: string;
+  address: string;
   balance: number;
   image: string;
 }
@@ -18,31 +21,56 @@ interface MintBoxProps {
 }
 
 const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
-  const { walletProvider } = useWeb3ModalProvider();
+  const {walletProvider} = useWeb3ModalProvider();
   const [collateralAmount, setCollateralAmount] = useState('');
   const [mintAmount, setMintAmount] = useState(0.0);
-  const [selectedToken, setSelectedToken] = useState('ETH');
+  const [selectedToken, setSelectedToken] = useState('VIC');
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [isViction, setIsViction] = useState(false);
+  const [network, setNetwork] = useState<number>(89);
+  const [signer, setSigner] = useState<ethers.Signer>();
+  const [contractDetails, setContractDetails] = useState<{ address: string; abi: any }>();
 
-  console.log(slippage);
+  const { mint, error } = useMint(
+    () => signer,
+    () => contractDetails,
+    () => selectedToken,
+    () => collateralAmount,
+    () => mintAmount,
+  );
 
   const tokens = [
-    { name: 'ETH', balance: 0.012, image: '/eth.png' },
-    { name: 'BTC', balance: 0.0002, image: '/btc.png' },
-    { name: 'Viction', balance: 1.0, image: '/viction.svg' },
-  ]
+    { name: 'Viction', address: "", balance: 1.0, image: '/viction.svg' },
+    { name: 'ETH', address: "", balance: 0.012, image: '/ethereum.svg' },
+    { name: 'DAI', address: "", balance: 0.0002, image: '/dai.svg' },
+  ];
 
   let token: Token | undefined;
+  let ethersProvider: ethers.providers.Web3Provider;
+
+  const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
+    console.log(newNetwork.chainId);
+    setNetwork(newNetwork.chainId);
+    setIsViction(newNetwork.chainId === 89); // Assuming 89 is the chainId for Viction
+  };
+
+  if (walletProvider) {
+    ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+    ethersProvider.on('network', handleNetworkChange);
+  }
 
   useEffect(() => {
     if (walletProvider) {
       setIsConnected(true);
+      console.log('walletProvider', walletProvider);
+      ethersProvider = new ethers.providers.Web3Provider(walletProvider);
+      ethersProvider.getNetwork().then(handleNetworkChange).catch(console.error);
     } else {
       setIsConnected(false);
     }
-  }, [walletProvider]);
+  }, [walletProvider, network]);
 
   const handleMintAmount = (amount: string) => {
     setIsLoading(true);
@@ -63,6 +91,25 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
     token = tokens.find(token => token.name === selectedToken);
     setIsPopupOpen(false);
   };
+
+  // for testing
+  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+  const handleMint = async () => {
+    console.log('Minting');
+    setIsLoading(true);
+    setSigner(ethersProvider.getSigner());
+    console.log('collateralAmount', collateralAmount);
+    const token = tokens.find(token => token.name === selectedToken);
+    if (!token) {
+      await delay(5000);
+      setIsLoading(false);
+      return;
+    }
+    setContractDetails({ address: token.address, abi: ERC20_ABI });
+    await mint();
+    setIsLoading(false);
+  }
 
   return (
     <>
@@ -109,16 +156,24 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
         </div>
       </div>
       <div className="flex justify-center">
-        {isLoading && (
+        {/* {isLoading && (
             <button className="w-full h-[40px] rounded-lg shadow-lg text-black text-lg bg-gray-300">
               <Spinner />
             </button>
-          )} 
-        {!isLoading && isConnected && (
+          )}  */}
+        {isConnected && isViction && (
             <button 
-              className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-green-500"
+              className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
+              disabled={isLoading}
+              onClick={handleMint}
             >
-              Mint
+              {isLoading ? <Spinner /> : 'Mint'}
+            </button>
+          )
+        }
+        {!isLoading && isConnected && !isViction &&  (
+            <button className="w-full h-[40px] rounded-lg shadow-lg text-gray-500 text-lg bg-gray-200 disabled disabled:opacity-50">
+              Switch to Viction Testnet
             </button>
           )
         }
@@ -128,7 +183,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
             </button>
           )
         }
-        
       </div>
     </>
   )
