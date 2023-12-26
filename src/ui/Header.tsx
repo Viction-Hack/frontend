@@ -19,6 +19,9 @@ export default function Header() {
         <Link className="text-m font-medium hover:underline underline-offset-4" href="/token">
           Mint & Redeem
         </Link>
+        <Link className="text-m font-medium hover:underline underline-offset-4" href="/oft">
+          Transfer
+        </Link>
         <Link className="text-m font-medium hover:underline underline-offset-4" href="#">
           Earn
         </Link>
