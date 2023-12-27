@@ -2,10 +2,12 @@ import Link from "next/link"
 import Image from "next/image"
 import Header from "../ui/Header"
 import Footer from "../ui/Footer"
+import ChainlistHeader from "@/ui/ChainlistHeader"
 
 export default function LandingPage() {
   return (
     <>
+      <ChainlistHeader />
       <Header />
       <main className="bg-green-200 flex-1 flex-row justify-center items-center min-h-screen">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
