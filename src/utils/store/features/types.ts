@@ -41,7 +41,8 @@ export interface TransactionState {
 
 export enum TransactionActionTypes {
   ADD_TRANSACTION = 'ADD_TRANSACTION',
-  UPDATE_TRANSACTION_STATUS = 'UPDATE_TRANSACTION_STATUS'
+  UPDATE_TRANSACTION_STATUS = 'UPDATE_TRANSACTION_STATUS',
+  DELETE_TRANSACTION = 'DELETE_TRANSACTION',
 }
 
 export interface AddTransactionAction {

@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   positions: positionSlice.reducer,
   tokenPrices: priceSlice.reducer,
   dusdSupplyInfo: dusdSupplySlice.reducer,
-  transactionSlice: transactionSlice.reducer,
+  transactions: transactionSlice.reducer,
 });
 
 export type AppStore = Store<RootState>;

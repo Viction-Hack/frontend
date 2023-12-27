@@ -27,6 +27,6 @@ const transactionSlice = createSlice({
   },
 });
 
-export const { addTransaction, updateTransactionStatus } = transactionSlice.actions;
+export const { addTransaction, updateTransactionStatus, deleteTransaction } = transactionSlice.actions;
 
 export default transactionSlice;
