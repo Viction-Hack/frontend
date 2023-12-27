@@ -16,11 +16,10 @@ type Token = {
 }
 
 interface TransferBoxProps {
-  slippage: number;
   userBalances: UserBalance;
 }
 
-const TransferBox: React.FC<TransferBoxProps> = ({slippage, userBalances}) => {
+const TransferBox: React.FC<TransferBoxProps> = ({userBalances}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [transferAmount, setTransferAmount] = useState('');
   const [destinationAmount, setDestinationAmount] = useState(0.0);
@@ -33,7 +32,6 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage, userBalances}) => {
   const { transfer, error } = useTransfer(
     () => signer,
     () => destinationAmount,
-    slippage,
     network
   );
 

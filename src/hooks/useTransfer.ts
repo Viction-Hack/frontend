@@ -16,7 +16,6 @@ interface UseTransferHook {
 export const useTransfer = (
   getSigner: () => Signer | undefined,
   getMinDUSDAmount: () => number | undefined,
-  slippage: number,
   chainId: number
 ): UseTransferHook => {
   const [error, setError] = useState<Error | null>(null);
@@ -53,12 +52,27 @@ export const useTransfer = (
 
       dispatch(updateTransactionStatus({ id: 'Approve Router', status: 'completed' }));
 
+      const version = 1;
+      const gasLimit = 350000;
+      const encodedVersion = ethers.utils.zeroPad(ethers.utils.arrayify(version), 2);
+      const encodedGasLimit = ethers.utils.defaultAbiCoder.encode(['uint256'], [gasLimit]);
+      const adapterParams = ethers.utils.concat(
+        [
+          encodedVersion,
+          ethers.utils.arrayify(encodedGasLimit)
+        ]
+      );
+
       tx = await dUsdTokenContract.sendFrom(
         user,
         dstChainId,
         user,
         dUSDCAmountInWei,
-        "0x"
+        {
+          refundAddress: user,
+          zroPaymentAddress: ethers.constants.AddressZero,
+          adapterParams: adapterParams,
+        }
       );
       await tx.wait();
 
