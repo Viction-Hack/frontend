@@ -7,14 +7,7 @@ import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
 import { useRedeem } from '@/hooks/useRedeem';
-import { ERC20_ABI } from '@/utils/constants/constants';
-
-type Token = {
-  name: string;
-  address: string;
-  balance: number;
-  image: string;
-}
+import { Token, tokenList } from '@/utils/constants/tokenlist';
 
 interface RedeemBoxProps {
   slippage: number;
@@ -24,7 +17,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [collateralAmount, setCollateralAmount] = useState('');
   const [redeemAmount, setRedeemAmount] = useState(0.0);
-  const [selectedToken, setSelectedToken] = useState('VIC');
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState('VIC');
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -34,16 +27,12 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
 
   const { redeem, error } = useRedeem(
     () => signer,
-    () => selectedToken,
+    () => selectedTokenSymbol,
     () => collateralAmount,
     () => redeemAmount,
   );
 
-  const tokens = [
-    { name: 'Viction', address: "", balance: 1.0, image: '/viction.svg' },
-    { name: 'ETH', address: "", balance: 0.012, image: '/ethereum.svg' },
-    { name: 'DAI', address: "", balance: 0.0002, image: '/dai.svg' },
-  ];
+  let tokens = tokenList().slice(0, 3);
 
   let token: Token | undefined;
   let ethersProvider: ethers.providers.Web3Provider;
@@ -77,14 +66,14 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
       return;
     }
     setCollateralAmount(amount);
-    const exchangeRate = calculateExchangeRate(selectedToken, amount);
+    const exchangeRate = calculateExchangeRate(selectedTokenSymbol, amount);
     setRedeemAmount(exchangeRate * parseInt(amount));
     setIsLoading(false);
   }
 
-  const handleSelectToken = (tokenName: string) => {
-    setSelectedToken(tokenName);
-    token = tokens.find(token => token.name === selectedToken);
+  const handleSelectToken = (tokenSymbol: string) => {
+    setSelectedTokenSymbol(tokenSymbol);
+    token = tokens.find(token => token.symbol === selectedTokenSymbol);
     setIsPopupOpen(false);
   };
 
@@ -96,7 +85,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
     setIsLoading(true);
     setSigner(ethersProvider.getSigner());
     console.log('collateralAmount', collateralAmount);
-    const token = tokens.find(token => token.name === selectedToken);
+    const token = tokens.find(token => token.symbol === selectedTokenSymbol);
     if (!token) {
       await delay(5000);
       setIsLoading(false);
@@ -134,20 +123,21 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
           <div className="block w-4/5 pl-7 pr-12 bg-transparent text-lg border-black rounded-md">
             {redeemAmount}
           </div>
-          <div className="flex p-3 inset-y-0 right-0 flex items-center h-2/3 w-1/3">
+          <div className="flex flex-row p-3 inset-y-0 right-0 items-center justify-center h-[40px] w-1/2">
             <label className="sr-only">Currency</label>
-            <button 
-              className='w-full bg-white rounded-2xl tx-black h-[30px]' 
-              onClick={() => setIsPopupOpen(true)}
-            >
-              {selectedToken}
-            </button>
             <SelectTokenPopup
               tokens={tokens}
               isOpen={isPopupOpen}
               onClose={() => setIsPopupOpen(false)}
               onSelect={handleSelectToken}
             />
+            <button 
+              className='flex w-full bg-white rounded-2xl justify-between p-4 items-center tx-black h-[30px]' 
+              onClick={() => setIsPopupOpen(true)}
+            >
+              <img className="h-5 w-5" src={(tokens.find(token => token.symbol === selectedTokenSymbol))?.logoUrl} alt="Selected token" />
+              <p className='text-sm'>{selectedTokenSymbol}</p>
+            </button>
           </div>
         </div>
       </div>

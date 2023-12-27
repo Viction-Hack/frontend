@@ -38,7 +38,7 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
 
   const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
     setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId === 89); // Assuming 89 is the chainId for Viction
+    setIsViction(newNetwork.chainId == 89); 
   };
 
   if (walletProvider) {
@@ -105,14 +105,13 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
         <div className="flex flex-col items-end mb-10 p-3">
           <p className="text-sm text-gray-500 mt-1">
              Balance: {token ? token.balance : '0.00'} 
-            {/* <span className="cursor-pointer text-indigo-600 hover:text-indigo-800">Max</span> */}
           </p>
         </div>
       </div>
       <ArrowDown />
       <div className="bg-gray-100 rounded-lg text-gray-500 text-sm font-medium leading-5 p-4 relative mb-3 mt-3">
         <div className="flex flex-row justify-between h-[60px] p-3">
-          <div className="block w-4/5 pl-7 pr-12 bg-transparent text-lg border-black rounded-md">
+          <div className="block w-full pl-7 pr-12 bg-transparent text-lg border-black rounded-md">
             {destinationAmount}
           </div>
           <div className="flex p-3 inset-y-0 right-0 flex items-center h-2/3 w-1/2">

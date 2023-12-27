@@ -8,13 +8,7 @@ import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
 import { useMint } from '@/hooks/useMint';
 import { ERC20_ABI } from '@/utils/constants/constants';
-
-type Token = {
-  name: string;
-  address: string;
-  balance: number;
-  image: string;
-}
+import { Token, tokenList } from '@/utils/constants/tokenlist';
 
 interface MintBoxProps {
   slippage: number;
@@ -24,7 +18,7 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [collateralAmount, setCollateralAmount] = useState('');
   const [mintAmount, setMintAmount] = useState(0.0);
-  const [selectedToken, setSelectedToken] = useState('VIC');
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState('VIC');
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -36,16 +30,12 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
   const { mint, error } = useMint(
     () => signer,
     () => contractDetails,
-    () => selectedToken,
+    () => selectedTokenSymbol,
     () => collateralAmount,
     () => mintAmount,
   );
 
-  const tokens = [
-    { name: 'Viction', address: "", balance: 1.0, image: '/viction.svg' },
-    { name: 'ETH', address: "", balance: 0.012, image: '/ethereum.svg' },
-    { name: 'DAI', address: "", balance: 0.0002, image: '/dai.svg' },
-  ];
+  let tokens = tokenList().slice(0, 3);
 
   let token: Token | undefined;
   let ethersProvider: ethers.providers.Web3Provider;
@@ -79,14 +69,15 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
       return;
     }
     setCollateralAmount(amount);
-    const exchangeRate = calculateExchangeRate(selectedToken, amount);
+    const exchangeRate = calculateExchangeRate(selectedTokenSymbol, amount);
     setMintAmount(exchangeRate * parseInt(amount));
     setIsLoading(false);
   }
 
-  const handleSelectToken = (tokenName: string) => {
-    setSelectedToken(tokenName);
-    token = tokens.find(token => token.name === selectedToken);
+  const handleSelectToken = (tokenSymbol: string) => {
+    setSelectedTokenSymbol(tokenSymbol);
+    token = tokens.find(token => token.symbol === tokenSymbol);
+    console.log('token', token);
     setIsPopupOpen(false);
   };
 
@@ -98,7 +89,7 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
     setIsLoading(true);
     setSigner(ethersProvider.getSigner());
     console.log('collateralAmount', collateralAmount);
-    const token = tokens.find(token => token.name === selectedToken);
+    const token = tokens.find(token => token.symbol === selectedTokenSymbol);
     if (!token) {
       await delay(5000);
       setIsLoading(false);
@@ -121,26 +112,26 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
               className="w-full pl-7 pr-12 bg-transparent text-lg rounded-md"
               placeholder="0"
             />
-          <div className="flex p-3 inset-y-0 right-0 flex items-center h-2/3 w-1/3">
+          <div className="flex flex-row p-3 inset-y-0 right-0 items-center justify-center h-[40px] w-1/3">
             <label className="sr-only">Currency</label>
-            <button 
-              className='w-full bg-white rounded-2xl tx-black h-[30px]' 
-              onClick={() => setIsPopupOpen(true)}
-            >
-              {selectedToken}
-            </button>
             <SelectTokenPopup
               tokens={tokens}
               isOpen={isPopupOpen}
               onClose={() => setIsPopupOpen(false)}
               onSelect={handleSelectToken}
             />
+            <button 
+              className='flex w-full bg-white rounded-2xl justify-between p-4 items-center tx-black h-[30px]' 
+              onClick={() => setIsPopupOpen(true)}
+            >
+              <img className="h-5 w-5" src={(tokens.find(token => token.symbol === selectedTokenSymbol))?.logoUrl} alt="Selected token" />
+              <p className='text-sm'>{selectedTokenSymbol}</p>
+            </button>
           </div>
         </div>
         <div className="flex flex-col items-end mb-10 p-3">
           <p className="text-sm text-gray-500 mt-1">
-             Balance: {token ? token.balance : '0.00'} 
-            {/* <span className="cursor-pointer text-indigo-600 hover:text-indigo-800">Max</span> */}
+            Balance: {token ? token.balance : '0.00'}
           </p>
         </div>
       </div>
@@ -154,11 +145,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
         </div>
       </div>
       <div className="flex justify-center">
-        {/* {isLoading && (
-            <button className="w-full h-[40px] rounded-lg shadow-lg text-black text-lg bg-gray-300">
-              <Spinner />
-            </button>
-          )}  */}
         {isConnected && isViction && (
             <button 
               className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-300"

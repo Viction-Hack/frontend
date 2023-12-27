@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
-
-interface Token {
-  name: string;
-  balance: number;
-  image: string;
-}
+import { Token } from '@/utils/constants/tokenlist';
 
 interface SelectTokenPopupProps {
   tokens: Token[];
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (tokenName: string) => void;
+  onSelect: (tokenSymbol: string) => void;
 }
 
 const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, onClose, onSelect }) => {
   const [selectedToken, setSelectedToken] = useState<string>('');
 
-  const handleTokenClick = (tokenName: string) => {
-    setSelectedToken(tokenName);
-    onSelect(tokenName);
+  const handleTokenClick = (tokenSymbol: string) => {
+    setSelectedToken(tokenSymbol);
+    onSelect(tokenSymbol);
+    console.log(tokenSymbol);
   };
 
   if (!isOpen) {
@@ -34,10 +30,10 @@ const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, onC
             <li
               key={token.name}
               className={`flex items-center justify-between p-2 hover:bg-gray-100 rounded-md ${selectedToken === token.name ? 'bg-gray-200' : ''}`}
-              onClick={() => handleTokenClick(token.name)}
+              onClick={() => handleTokenClick(token.symbol)}
             >
               <div className="flex items-center">
-                <img src={token.image} alt={token.name} className="h-6 w-6 rounded-full mr-2" />
+                <img src={token.logoUrl} alt={token.symbol} className="h-6 w-6 rounded-full mr-2" />
                 <span>{token.name}</span>
               </div>
               <span>{token.balance}</span>
