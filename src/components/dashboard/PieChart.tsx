@@ -12,7 +12,6 @@ interface PieChartProps {
 }
 
 export const PieChart: React.FC<PieChartProps> = ({ data }) => {
-  const colors = ["#2d623b", "#bbf7d0"]
   return (
     <div style={{ width: '300px', height: '250px' }}>
       <ResponsivePie
