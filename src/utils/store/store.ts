@@ -3,6 +3,7 @@ import userBalanceSlice from './features/userBalanceSlice';
 import positionSlice from './features/positionSlice';
 import priceSlice from './features/priceSlice';
 import dusdSupplySlice from './features/dusdSupplySlice';
+import transactionSlice from './features/transactionSlice';
 import { initializeStore } from './initialize';
 
 const rootReducer = combineReducers({
@@ -10,12 +11,10 @@ const rootReducer = combineReducers({
   positions: positionSlice.reducer,
   tokenPrices: priceSlice.reducer,
   dusdSupplyInfo: dusdSupplySlice.reducer,
+  transactionSlice: transactionSlice.reducer,
 });
 
 export type AppStore = Store<RootState>;
-
-
-// type Store = ReturnType<typeof configureStore>;
 
 let store: AppStore | undefined;
 

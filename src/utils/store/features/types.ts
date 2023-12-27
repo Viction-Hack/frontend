@@ -29,3 +29,29 @@ export interface AppState {
   tokenPrices: TokenPrice;
   dusdSupplyInfo: SupplyInfo;
 }
+
+export interface Transaction {
+  id: string;
+  status: 'pending' | 'completed' | 'failed';
+}
+
+export interface TransactionState {
+  transactions: Transaction[];
+}
+
+export enum TransactionActionTypes {
+  ADD_TRANSACTION = 'ADD_TRANSACTION',
+  UPDATE_TRANSACTION_STATUS = 'UPDATE_TRANSACTION_STATUS'
+}
+
+export interface AddTransactionAction {
+  type: TransactionActionTypes.ADD_TRANSACTION;
+  payload: Transaction;
+}
+
+export interface UpdateTransactionStatusAction {
+  type: TransactionActionTypes.UPDATE_TRANSACTION_STATUS;
+  payload: { id: string; status: Transaction['status'] };
+}
+
+export type TransactionActions = AddTransactionAction | UpdateTransactionStatusAction;
