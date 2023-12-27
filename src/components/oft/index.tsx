@@ -8,7 +8,7 @@ export default function OFT() {
           <div className="container mx-auto px-4 md:px-6 mb-10">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none mb-5">
-                Transfer DUSD
+                Bridge DUSD
               </h1>
               <h2 className="text-m sm:text-l md:text-xl lg:text-2xl/none">
                 Experience seamless cross-chain transfers in DUSD.

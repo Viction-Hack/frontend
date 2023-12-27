@@ -20,7 +20,7 @@ export default function Header() {
           Mint & Redeem
         </Link>
         <Link className="text-m font-medium hover:underline underline-offset-4" href="/oft">
-          Transfer
+          Bridge
         </Link>
         <Link className="text-m font-medium hover:underline underline-offset-4" href="#">
           Earn
