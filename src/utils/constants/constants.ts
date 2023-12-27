@@ -48,6 +48,7 @@ export const CONTROLLER_ABI = [
 export const VICTION_DAI_ADDR = tokensList[1].address;
 export const VICTION_ETH_ADDR = tokensList[2].address;
 export const DUSD_ADDR = tokensList[3].address;
+export const ARB_VIC_ADDR = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 export const ERC20_ABI = [
     {

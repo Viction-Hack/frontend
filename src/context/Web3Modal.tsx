@@ -11,7 +11,7 @@ const victionTestnet = {
   name: 'Viction Testnet',
   currency: 'VIC',
   explorerUrl: 'https://testnet.vicscan.xyz/',
-  rpcUrl: 'https://rpc-testnet.viction.xyz'
+  rpcUrl: 'https://rpc-testnet.viction.xyz/'
 }
 
 const arbitrumSepolia = {
@@ -19,7 +19,7 @@ const arbitrumSepolia = {
   name: 'Arbitrum Sepolia',
   currency: 'ETH',
   explorerUrl: 'https://sepolia-explorer.arbitrum.io/',
-  rpcUrl: 'https://sepolia-rollup.arbitrum.io/rpc'
+  rpcUrl: 'https://sepolia-rollup.arbitrum.io/rpc/'
 }
 
 // 3. Create modal
