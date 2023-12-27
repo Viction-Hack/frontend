@@ -111,21 +111,32 @@ export const ERC20_ABI = [
 ];
 
 export const ARB_FUTURES_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-export const ARB_FUTURES_ABI = "TODO";
+export const ARB_FUTURES_ABI = [
+  {
+    "inputs": [
+      {"internalType":"address","name":"account","type":"address"}
+    ],
+    "stateMutability":"view",
+    "type":"function",
+    "name":"getPosition",
+    "outputs":[
+      {
+        "internalType":"struct IMockPerpDex.Position",
+        "name":"",
+        "type":"tuple",
+        "components":[
+          {"internalType":"int256","name":"amount","type":"int256"},
+          {"internalType":"uint256","name":"entryPrice","type":"uint256"}
+        ]
+      }
+    ]
+  },
+];
 
 export const VICTION_MULTICALL_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 export const ARB_MULTICALL_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 export const MULTICALL_ABI = [
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getCurrentBlockTimestamp",
-    "outputs": [{ "name": "timestamp", "type": "uint256" }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
   {
     "constant": false,
     "inputs": [

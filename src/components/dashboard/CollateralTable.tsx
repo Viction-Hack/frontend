@@ -2,33 +2,27 @@
 
 import React, { useMemo } from 'react';
 import { useTable, Column } from 'react-table';
-import { PositionsState, TokenPrice } from '@/utils/store/features/types';
+import { PositionsState } from '@/utils/store/features/types';
 
 interface TableData {
-  asset: string;
   amount: string;
-  value: string;
+  entryPrice: string;
 }
 
 interface CollateralTableProps {
   positions: PositionsState;
-  tokenPrices: TokenPrice;
 }
 
-const CollateralTable: React.FC<CollateralTableProps> = ({ positions, tokenPrices }) => {
+const CollateralTable: React.FC<CollateralTableProps> = ({ positions }) => {
   const columns: Column<TableData>[] = useMemo(
     () => [
-      {
-        Header: 'Asset',
-        accessor: 'asset', 
-      },
       {
         Header: 'Amount',
         accessor: 'amount',
       },
       {
-        Header: 'Value',
-        accessor: 'value',
+        Header: 'EntryPrice',
+        accessor: 'entryPrice',
       },
     ],
     []
@@ -36,15 +30,13 @@ const CollateralTable: React.FC<CollateralTableProps> = ({ positions, tokenPrice
 
   const data = useMemo(() => {
     return positions.positions.map(position => {
-      const price = tokenPrices[position.asset] || 0;
-      const value = price * position.amount;
+      const price = position.entryPrice;
       return {
-        asset: position.asset,
-        amount: `${position.amount} ${position.asset}`,
-        value: `$${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`,
+        amount: `${position.amount} USD`,
+        entryPrice: `$${price.toLocaleString('en-US', { maximumFractionDigits: 2 })}`,
       };
     });
-  }, [positions, tokenPrices]);
+  }, [positions]);
 
   const {
     getTableProps,

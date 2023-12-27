@@ -6,7 +6,6 @@ import { displayTwoDecimalPlaces } from "@/utils/displayTwoDecimalPlaces";
 export default function UserBox() {
   const userBalance = useSelector((state: RootState) => state.userBalances);
   const positions = useSelector((state: RootState) => state.positions);
-  const prices = useSelector((state: RootState) => state.tokenPrices);
   
   return (
     <div className="flex flex-col justify-center items-center mx-auto mb-3 w-1/2 h-1/2">
@@ -25,7 +24,7 @@ export default function UserBox() {
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Your Collateral</dt>
             </div>
-            <CollateralTable positions={positions} tokenPrices={prices} />
+            <CollateralTable positions={positions} />
           </dl>
         </div>
       </div>

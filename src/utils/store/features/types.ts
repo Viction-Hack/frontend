@@ -6,8 +6,8 @@ export interface UserBalance {
 }
 
 export interface Position {
-  asset: string; // 'ETH', 'DAI', 'VIC', etc.
   amount: number;
+  entryPrice: number;
 }
 
 export interface PositionsState {

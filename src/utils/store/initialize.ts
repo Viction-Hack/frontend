@@ -10,6 +10,11 @@ import {
 import { tokenList } from '../constants/tokenlist';
 import { ethers } from 'ethers';
 
+type ReturnDataType = {
+  amount: ethers.BigNumber;
+  entryPrice: ethers.BigNumber;
+};
+
 export async function initializeStore(userAddress: string) {
 
   const ARB_RPC_URL = process.env.NEXT_PUBLIC_ARBITRUM_URL || '';
@@ -28,16 +33,8 @@ export async function initializeStore(userAddress: string) {
   let positions: PositionsState = {
     positions: [
       {
-        asset: 'VIC',
         amount: 0,
-      },
-      {
-        asset: 'DAI',
-        amount: 0,
-      },
-      {
-        asset: 'ETH',
-        amount: 0,
+        entryPrice: 0,
       },
     ],
   };
@@ -83,9 +80,6 @@ export async function initializeStore(userAddress: string) {
         const calldata = vicMulticall.interface.encodeFunctionData('getEthBalance', [userAddress]);
         vicCalls.push([VICTION_MULTICALL_ADDR, calldata]);
 
-        // TODO: Get ARB VIC address
-        const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [tokenAddr, userAddress]);
-        arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
       } else if (i == 3) {
         const tokenContract = new ethers.Contract(tokenAddr, ERC20_ABI, vicProvider);
         const calldata = tokenContract.interface.encodeFunctionData('balanceOf', [userAddress]);
@@ -98,51 +92,47 @@ export async function initializeStore(userAddress: string) {
         const tokenContract = new ethers.Contract(tokenAddr, ERC20_ABI, vicProvider);
         const calldata = tokenContract.interface.encodeFunctionData('balanceOf', [userAddress]);
         vicCalls.push([tokenAddr, calldata]);
-          
-        const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [tokenAddr, userAddress]);
-        arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
       }
     }
+    const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [userAddress]);
+    arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
 
-    const vicResults = await vicMulticall.aggregate(vicCalls);
-    const arbResults = await arbMulticall.aggregate(arbCalls);
+    const { _blockNumber, vicReturnData } = await vicMulticall.aggregate(vicCalls);
+    const { _arbBlockNumber, arbReturnData } = await arbMulticall.aggregate(arbCalls);
 
-    const vicDecodedResults = ethers.utils.defaultAbiCoder.decode(
-      ['uint256', 'uint256', 'uint256', 'uint256', 'uint256'], 
-      vicResults
-    );
-    const arbDecodedResults = ethers.utils.defaultAbiCoder.decode(
-      ['uint256', 'uint256', 'uint256', 'uint256'], 
-      arbResults
-    );
+    const vicDecodedData = vicReturnData.map((data: any) => {
+      const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], data);
+      return decoded[0];
+    });
+    const arbDecodedData: ReturnDataType[] = arbReturnData.map((data: any) => {
+      // Decode the data as a tuple containing an int256 and a uint256
+      const [amount, entryPrice] = ethers.utils.defaultAbiCoder.decode(
+        ['int256', 'uint256'],
+        data
+      );
+      // Return the decoded values in the structured format
+      return { amount, entryPrice };
+    });
 
     userBalances = {
-      DUSD: vicDecodedResults[0],
-      ETH: vicDecodedResults[1],
-      DAI: vicDecodedResults[2],
-      VIC: vicDecodedResults[3],
+      DUSD: vicDecodedData[0],
+      ETH: vicDecodedData[1],
+      DAI: vicDecodedData[2],
+      VIC: vicDecodedData[3],
     };
 
     positions = {
       positions: [
         {
-          asset: 'VIC',
-          amount: arbDecodedResults[0],
-        },
-        {
-          asset: 'DAI',
-          amount: arbDecodedResults[1],
-        },
-        {
-          asset: 'ETH',
-          amount: arbDecodedResults[2],
+          amount: arbDecodedData[0].amount.div(1e18).toNumber(),
+          entryPrice: arbDecodedData[0].entryPrice.div(1e18).toNumber(),
         },
       ],
     };
 
     dusdSupplyInfo = {
-      totalSupply: vicDecodedResults[4],
-      victionSupply: vicDecodedResults[5],
+      totalSupply: vicDecodedData[4],
+      victionSupply: vicDecodedData[5],
     };
   } catch (e) {
     console.error('Failed to fetch initial data:', e);
