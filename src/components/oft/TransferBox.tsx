@@ -34,6 +34,7 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage, userBalances}) => {
     () => signer,
     () => destinationAmount,
     slippage,
+    network
   );
 
   let token: Token = {

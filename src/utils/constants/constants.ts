@@ -90,7 +90,23 @@ export const ERC20_ABI = [
         inputs: [],
         outputs: [{name: "", type: "uint256", internalType: "uint256"}],
         stateMutability: "view"
-    }
+    },
+    {
+        type: "function",
+        name: "sendFrom",
+        inputs:[
+            {name: "_from",type:"address",internalType: "address"},
+            {name: "_dstChainId", type: "uint16",internalType: "uint16"},
+            {name: "_toAddress", type: "bytes32", internalType: "bytes32"},
+            {name: "_amount", type: "uint256", internalType: "uint256"},
+            {name: "_callParams", type :"tuple", internalType :"struct ICommonOFT.LzCallParams", components:[
+                {name: "refundAddress", type: "address", internalType: "address payable"},
+                {name: "zroPaymentAddress", type: "address", internalType: "address"},
+                {name: "adapterParams", type: "bytes", internalType: "bytes"}]
+            }
+        ],
+        outputs:[],
+        stateMutability: "payable"}
 ];
 
 export const ARB_FUTURES_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';

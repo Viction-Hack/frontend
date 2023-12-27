@@ -13,11 +13,11 @@ interface UseTransferHook {
   error: Error | null;
 }
 
-// TODO: Fix the method to use the correct OFT transfer method
 export const useTransfer = (
   getSigner: () => Signer | undefined,
   getMinDUSDAmount: () => number | undefined,
-  slippage: number
+  slippage: number,
+  chainId: number
 ): UseTransferHook => {
   const [error, setError] = useState<Error | null>(null);
   const dispatch = useDispatch();
@@ -35,32 +35,33 @@ export const useTransfer = (
       return;
     }
 
+    const dstChainId = chainId === 89 ? 421614 : 89;
+
     try {
-      const controllerContract = new ethers.Contract(CONTROLLER_ADDR, CONTROLLER_ABI, signer);
       let tx;
-
       const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
-
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
+
       dispatch(addTransaction({ id: 'Approve Router', status: 'pending' }));
       dispatch(addTransaction({ id: 'Transfer DUSD', status: 'pending' }));
-      const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
 
+      const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
       if (allowance.lt(dUSDCAmountInWei)) {
         const tx = await dUsdTokenContract.approve(CONTROLLER_ADDR, dUSDCAmountInWei);
         await tx.wait();
       }
+
       dispatch(updateTransactionStatus({ id: 'Approve Router', status: 'completed' }));
 
-      // TODO: Fix this to use correct OFT transfer method
-      tx = await controllerContract.transfer(
-        // collateralTokenContract.address,
-        // user,
-        // collateralAmountInWei,
-        // dUSDCAmountInWei,
-        // 0
+      tx = await dUsdTokenContract.sendFrom(
+        user,
+        dstChainId,
+        user,
+        dUSDCAmountInWei,
+        "0x"
       );
       await tx.wait();
+
       dispatch(deleteTransaction('Approve Router'));
       dispatch(updateTransactionStatus({ id: 'Transfer DUSD', status: 'completed' }));
       await delay(2000);
