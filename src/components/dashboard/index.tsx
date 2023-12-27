@@ -1,6 +1,7 @@
 import UserBox from './UserBox';
 import VusdBox from './VusdBox';
-
+import Faucet from './Faucet';
+ 
 export default function Dashboard() {
   return (
     <>
@@ -21,6 +22,9 @@ export default function Dashboard() {
           <div className="flex flex-row container mx-auto px-4 md:px-6">
             <UserBox />
             <VusdBox />
+          </div>
+          <div className="flex flex-row container mx-auto px-4 md:px-6">
+            <Faucet />
           </div>
         </section>
       </main>

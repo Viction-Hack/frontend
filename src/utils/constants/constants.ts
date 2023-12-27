@@ -185,3 +185,14 @@ export const MULTICALL_ABI = [
     "type": "function"
   }
 ]
+
+export const FAUCET_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const FAUCET_ABI = [
+  {
+    "inputs": [{ "name": "user", "type": "address" }],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
