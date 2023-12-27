@@ -14,4 +14,4 @@ export const pricesSlice = createSlice({
 });
 
 export const { setPrices } = pricesSlice.actions;
-export default pricesSlice.reducer;
+export default pricesSlice;

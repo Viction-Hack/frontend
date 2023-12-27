@@ -1,28 +1,36 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, Store } from '@reduxjs/toolkit';
 import userBalanceSlice from './features/userBalanceSlice';
 import positionSlice from './features/positionSlice';
 import priceSlice from './features/priceSlice';
 import dusdSupplySlice from './features/dusdSupplySlice';
 import { initializeStore } from './initialize';
-import { ethers } from 'ethers';
 
-let store: ReturnType<typeof configureStore>;
+const rootReducer = combineReducers({
+  userBalances: userBalanceSlice.reducer,
+  positions: positionSlice.reducer,
+  tokenPrices: priceSlice.reducer,
+  dusdSupplyInfo: dusdSupplySlice.reducer,
+});
 
-export async function setupStore(signer: ethers.Signer) {
-  const initialState = await initializeStore(signer);
+export type AppStore = Store<RootState>;
+
+
+// type Store = ReturnType<typeof configureStore>;
+
+let store: AppStore | undefined;
+
+export async function setupStore(address: string) {
+  const initialState = await initializeStore(address);
 
   store = configureStore({
-    reducer: {
-      userBalances: userBalanceSlice,
-      positions: positionSlice,
-      tokenPrices: priceSlice,
-      dusdSupplyInfo: dusdSupplySlice,
-    },
+    reducer: rootReducer,
     preloadedState: initialState,
   });
 
   return store;
 }
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export function getDispatch() {
   if (!store) {

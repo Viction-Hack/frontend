@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTable, Column } from 'react-table';
+import { PositionsState, TokenPrice } from '@/utils/store/features/types';
 
 interface TableData {
   asset: string;
@@ -9,8 +10,12 @@ interface TableData {
   value: string;
 }
 
-export default function CollateralTable() {
-  // Define columns for the table
+interface CollateralTableProps {
+  positions: PositionsState;
+  tokenPrices: TokenPrice;
+}
+
+const CollateralTable: React.FC<CollateralTableProps> = ({ positions, tokenPrices }) => {
   const columns: Column<TableData>[] = useMemo(
     () => [
       {
@@ -29,27 +34,17 @@ export default function CollateralTable() {
     []
   );
 
-  // Define data for the table
-  const data = useMemo(
-    () => [
-      {
-        asset: 'Bitcoin',
-        amount: '2 BTC',
-        value: '$40,000',
-      },
-      {
-        asset: 'Bitcoin',
-        amount: '2 BTC',
-        value: '$40,000',
-      },
-      {
-        asset: 'Bitcoin',
-        amount: '2 BTC',
-        value: '$40,000',
-      },
-    ],
-    []
-  );
+  const data = useMemo(() => {
+    return positions.positions.map(position => {
+      const price = tokenPrices[position.asset] || 0;
+      const value = price * position.amount;
+      return {
+        asset: position.asset,
+        amount: `${position.amount} ${position.asset}`,
+        value: `$${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`,
+      };
+    });
+  }, [positions, tokenPrices]);
 
   const {
     getTableProps,
@@ -101,3 +96,5 @@ export default function CollateralTable() {
     </>
   );
 }
+
+export default CollateralTable;

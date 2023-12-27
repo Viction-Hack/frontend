@@ -19,4 +19,4 @@ export const userBalancesSlice = createSlice({
 });
 
 export const { setUserBalance } = userBalancesSlice.actions;
-export default userBalancesSlice.reducer;
+export default userBalancesSlice;

@@ -10,8 +10,7 @@ import {
 import { tokenList } from '../constants/tokenlist';
 import { ethers } from 'ethers';
 
-export async function initializeStore(signer: ethers.Signer) {
-  const userAddress = await signer.getAddress();
+export async function initializeStore(userAddress: string) {
 
   const ARB_RPC_URL = process.env.NEXT_PUBLIC_ARBITRUM_URL || '';
   const VIC_RPC_URL = process.env.NEXT_PUBLIC_VICTION_URL || '';
@@ -27,9 +26,30 @@ export async function initializeStore(signer: ethers.Signer) {
     VIC: 0,
   };
   let positions: PositionsState = {
-    positions: [],
+    positions: [
+      {
+        asset: 'VIC',
+        amount: 0,
+      },
+      {
+        asset: 'DAI',
+        amount: 0,
+      },
+      {
+        asset: 'ETH',
+        amount: 0,
+      },
+    ],
   };
-  let tokenPrices: TokenPrice = {};
+
+  // TODO: Get token prices from dexscreener
+  let tokenPrices: TokenPrice = { 
+    ETH: 2223,
+    DAI: 1,
+    VIC: 0.821,
+    DUSD: 1,
+    
+  };
   let dusdSupplyInfo: SupplyInfo = {
     totalSupply: 100,
     victionSupply: 100,

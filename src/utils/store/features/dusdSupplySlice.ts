@@ -17,4 +17,4 @@ export const dusdSupplySlice  = createSlice({
 });
 
 export const { setDusdSupply } = dusdSupplySlice .actions;
-export default dusdSupplySlice .reducer;
+export default dusdSupplySlice;

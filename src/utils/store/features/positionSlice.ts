@@ -17,4 +17,4 @@ export const positionsSlice = createSlice({
 });
 
 export const { setPositions } = positionsSlice.actions;
-export default positionsSlice.reducer;
+export default positionsSlice;
