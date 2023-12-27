@@ -10,8 +10,8 @@ const victionTestnet = {
   chainId: 89,
   name: 'Viction Testnet',
   currency: 'VIC',
-  explorerUrl: 'https://testnet.tomoscan.io/',
-  rpcUrl: 'https://rpc.testnet.tomochain.com/'
+  explorerUrl: 'https://testnet.vicscan.xyz/',
+  rpcUrl: 'https://rpc-testnet.viction.xyz'
 }
 
 const arbitrumSepolia = {
