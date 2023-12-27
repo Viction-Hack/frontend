@@ -30,7 +30,8 @@
     ".next/types/**/*.tsx",
     "./src/**/*.ts",
     "./src/**/*.tsx",
-    "./src/**/*.js"
+    "./src/**/*.js",
+    "metamask-config.d.ts"
   ],
   "exclude": ["node_modules"]
 }
