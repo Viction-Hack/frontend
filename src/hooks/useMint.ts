@@ -18,7 +18,7 @@ export const useMint = (
   getContractDetails: () => { address: string; abi: any } | undefined,
   getSelectedToken: () => string | undefined,
   getCollateralAmount: () => string | undefined,
-  getMinDUSDCAmount: () => number | undefined,
+  getMinDUSDAmount: () => number | undefined,
   slippage: number
 ): UseMintHook => {
   const [error, setError] = useState<Error | null>(null);
@@ -32,7 +32,7 @@ export const useMint = (
     const contractDetails = getContractDetails();
     const selectedToken = getSelectedToken();
     const collateralAmount = getCollateralAmount();
-    const dUSDCAmount = getMinDUSDCAmount();
+    const dUSDCAmount = getMinDUSDAmount();
     const user = await signer?.getAddress();
 
     if (!signer || !contractDetails) {
@@ -96,7 +96,7 @@ export const useMint = (
         setError(err);
       }
     }
-  }, [getSigner, getContractDetails, getSelectedToken, getCollateralAmount, getMinDUSDCAmount]);
+  }, [getSigner, getContractDetails, getSelectedToken, getCollateralAmount, getMinDUSDAmount]);
 
   return { mint, error };
 };

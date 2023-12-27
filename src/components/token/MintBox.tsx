@@ -100,9 +100,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
     setMintAmount(tokenPrices[selectedTokenSymbol] * fetchBalance(selectedTokenSymbol));
   }
 
-  // for testing
-  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
   const handleMint = async () => {
     console.log('Minting');
     setIsLoading(true);
@@ -110,7 +107,6 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
     console.log('collateralAmount', collateralAmount);
     const token = tokens.find(token => token.symbol === selectedTokenSymbol);
     if (!token) {
-      await delay(5000);
       setIsLoading(false);
       return;
     }

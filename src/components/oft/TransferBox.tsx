@@ -6,19 +6,21 @@ import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import { useTransfer } from '@/hooks/useTransfer';
 import { ArbitrumNetwork, VictionNetwork } from '@/ui/NetworkInfo';
+import { UserBalance } from '@/utils/store/features/types';
+import { DUSD_ADDR } from '@/utils/constants/constants';
 
 type Token = {
   name: string;
+  symbol: string;
   address: string;
-  balance: number;
-  image: string;
 }
 
 interface TransferBoxProps {
   slippage: number;
+  userBalances: UserBalance;
 }
 
-const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
+const TransferBox: React.FC<TransferBoxProps> = ({slippage, userBalances}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [transferAmount, setTransferAmount] = useState('');
   const [destinationAmount, setDestinationAmount] = useState(0.0);
@@ -31,9 +33,14 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
   const { transfer, error } = useTransfer(
     () => signer,
     () => destinationAmount,
+    slippage,
   );
 
-  let token: Token | undefined;
+  let token: Token = {
+    name: 'Doldrums USD',
+    symbol: 'DUSD',
+    address: DUSD_ADDR,
+  };
   let ethersProvider: ethers.providers.Web3Provider;
 
   const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
@@ -69,15 +76,20 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
     setIsLoading(false);
   }
 
-  // for testing
-  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+  const fetchBalance = () => {
+    return userBalances.DUSD
+  }
+
+  const handleFullBalance = () => {
+    setTransferAmount(fetchBalance().toString());
+    setDestinationAmount(fetchBalance());
+  }
 
   const handleTransfer = async () => {
     console.log('Transfering');
     setIsLoading(true);
     setSigner(ethersProvider.getSigner());
     if (!token) {
-      await delay(5000);
       setIsLoading(false);
       return;
     }
@@ -102,9 +114,9 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
           </div>
         </div>
         <div className="flex flex-col items-end mb-10 p-3">
-          <p className="text-sm text-gray-500 mt-1">
-             Balance: {token ? token.balance : '0.00'} 
-          </p>
+          <button className="text-sm text-gray-500 mt-1" onClick={handleFullBalance}>
+            Balance: {fetchBalance()}
+          </button>
         </div>
       </div>
       <ArrowDown />

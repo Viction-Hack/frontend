@@ -17,7 +17,7 @@ export const useRedeem = (
   getSigner: () => Signer | undefined,
   getSelectedToken: () => string | undefined,
   getCollateralAmount: () => string | undefined,
-  getMinDUSDCAmount: () => number | undefined,
+  getMinDUSDAmount: () => number | undefined,
   slippage: number
 ): UseRedeemHook => {
   const [error, setError] = useState<Error | null>(null);
@@ -30,7 +30,7 @@ export const useRedeem = (
     const signer = getSigner();
     const selectedToken = getSelectedToken();
     const collateralAmount = getCollateralAmount();
-    const dUSDCAmount = getMinDUSDCAmount();
+    const dUSDAmount = getMinDUSDAmount();
     const user = await signer?.getAddress();
 
     if (!signer) {
@@ -45,7 +45,7 @@ export const useRedeem = (
       dispatch(addTransaction({ id: 'Mint DUSD', status: 'pending' }));
 
       const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0').mul(1e18);
-      const dUSDCAmountInWei = BigNumber.from(dUSDCAmount?.toString() || '0').mul(1e18);
+      const dUSDCAmountInWei = BigNumber.from(dUSDAmount?.toString() || '0').mul(1e18);
 
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
       const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
@@ -78,7 +78,7 @@ export const useRedeem = (
         setError(err);
       }
     }
-  }, [getSigner, getSelectedToken, getCollateralAmount, getMinDUSDCAmount]);
+  }, [getSigner, getSelectedToken, getCollateralAmount, getMinDUSDAmount]);
 
   return { redeem, error };
 };

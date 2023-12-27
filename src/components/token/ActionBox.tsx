@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MintBox from './MintBox';
 import RedeemBox from './RedeemBox';
 import Settings from '@/ui/Settings';
@@ -18,7 +18,6 @@ export default function ActionBox() {
 
   const userBalances = useSelector((state: RootState) => state.userBalances);
   const prices = useSelector((state: RootState) => state.tokenPrices);
-  const transactions = useSelector((state: RootState) => state.transactions);
 
   const handleMintOrRedeem = () => {
     setIsMinting(!isMinting);
