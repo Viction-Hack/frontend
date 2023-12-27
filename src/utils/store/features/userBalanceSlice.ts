@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserBalance } from './types';
 
 const initialState: UserBalance = {
-  DUSD: 0,
-  ETH: 0,
-  DAI: 0,
-  VIC: 0,
+  DUSD: 0.00,
+  ETH: 0.00,
+  DAI: 0.00,
+  VIC: 0.00,
 };
 
 export const userBalancesSlice = createSlice({

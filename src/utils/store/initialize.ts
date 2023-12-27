@@ -20,10 +20,10 @@ export async function initializeStore(userAddress: string) {
 
   
   let userBalances: UserBalance = {
-    DUSD: 0,
-    ETH: 0,
-    DAI: 0,
-    VIC: 0,
+    DUSD: 0.00,
+    ETH: 0.00,
+    DAI: 0.00,
+    VIC: 0.00,
   };
   let positions: PositionsState = {
     positions: [
