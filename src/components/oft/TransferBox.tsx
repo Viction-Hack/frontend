@@ -88,7 +88,6 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
   return (
     <>
       <div className="bg-gray-100 rounded-lg text-gray-500 text-sm font-medium h-1/2 leading-5 p-4 relative mb-3">
-        <h2 className="text-sm font-medium text-gray-500">Transfer DUSD</h2>
         <div className="flex flex-row justify-between h-[60px]">
           <input
               type="number"
@@ -97,7 +96,7 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
               className="w-full pl-7 pr-12 bg-transparent text-lg rounded-md"
               placeholder="0"
             />
-          <div className="flex p-3 inset-y-0 right-0 flex items-center h-2/3 w-1/2">
+          <div className="flex p-3 inset-y-0 right-0 flex items-center h-[40px] w-1/3">
             <label className="sr-only">Network</label>
             {isViction ? <VictionNetwork /> : <ArbitrumNetwork />}
           </div>
@@ -114,7 +113,7 @@ const TransferBox: React.FC<TransferBoxProps> = ({slippage}) => {
           <div className="block w-full pl-7 pr-12 bg-transparent text-lg border-black rounded-md">
             {destinationAmount}
           </div>
-          <div className="flex p-3 inset-y-0 right-0 flex items-center h-2/3 w-1/2">
+          <div className="flex p-3 inset-y-0 right-0 flex items-center h-[40px] w-1/3">
             <label className="sr-only">Network</label>
             {!isViction ? <VictionNetwork /> : <ArbitrumNetwork />}
           </div>

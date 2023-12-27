@@ -1,6 +1,6 @@
 export const ArbitrumNetwork = () => {
   return (
-    <div className='flex flex-row items-center w-full bg-transparent rounded-2xl h-[30px]'>
+    <div className='flex flex-row items-center w-full bg-transparent rounded-2xl h-[30px] p-4'>
       <img
         src="/arbitrum.svg"
         alt="Arbitrum"
@@ -13,7 +13,7 @@ export const ArbitrumNetwork = () => {
 
 export const VictionNetwork = () => {
   return (
-    <div className='flex flex-row items-center w-full bg-transparent rounded-2xl h-[30px]'>
+    <div className='flex flex-row items-center w-full bg-transparent rounded-2xl h-[30px] p-4'>
       <img
         src="/viction.svg"
         alt="Viction"
