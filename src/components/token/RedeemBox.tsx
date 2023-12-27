@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
-import calculateExchangeRate from '@/utils/calculateExchangeRate';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
 import { useRedeem } from '@/hooks/useRedeem';
 import { Token, tokenList } from '@/utils/constants/tokenlist';
+import { UserBalance, TokenPrice } from '@/utils/store/features/types';
 
 interface RedeemBoxProps {
   slippage: number;
+  userBalances: UserBalance;
+  tokenPrices: TokenPrice;
 }
 
-const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
+const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrices}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [collateralAmount, setCollateralAmount] = useState('');
   const [redeemAmount, setRedeemAmount] = useState(0.0);
@@ -30,6 +32,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
     () => selectedTokenSymbol,
     () => collateralAmount,
     () => redeemAmount,
+    slippage,
   );
 
   let tokens = tokenList().slice(0, 3);
@@ -39,7 +42,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
 
   const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
     setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId === 89); // Assuming 89 is the chainId for Viction
+    setIsViction(newNetwork.chainId === 89);
   };
 
   if (walletProvider) {
@@ -57,6 +60,18 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
     }
   }, [walletProvider, network]);
 
+  const fetchBalance = (tokenSymbol: string) => {
+    if (tokenSymbol === 'VIC') {
+      return userBalances.VIC
+    } else if (tokenSymbol === 'ETH') {
+      return userBalances.ETH
+    } else if (tokenSymbol === 'DAI') {
+      return userBalances.DAI
+    } else {
+      return 0.0
+    }
+  }
+
   const handleRedeemAmount = (amount: string) => {
     setIsLoading(true);
     if (amount === '') {
@@ -66,8 +81,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
       return;
     }
     setCollateralAmount(amount);
-    const exchangeRate = calculateExchangeRate(selectedTokenSymbol, amount);
-    setRedeemAmount(exchangeRate * parseInt(amount));
+    setRedeemAmount(Number(amount) / tokenPrices[selectedTokenSymbol]);
     setIsLoading(false);
   }
 
@@ -76,6 +90,11 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
     token = tokens.find(token => token.symbol === selectedTokenSymbol);
     setIsPopupOpen(false);
   };
+
+  const handleFullBalance = () => {
+    setCollateralAmount(fetchBalance(selectedTokenSymbol).toString());
+    setRedeemAmount(fetchBalance(selectedTokenSymbol) / tokenPrices[selectedTokenSymbol]);
+  }
 
   // for testing
   const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -111,10 +130,9 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
         </div>
         
         <div className="flex flex-col items-end mb-10 p-3">
-          <p className="text-sm text-gray-500 mt-1">
-             Balance: {token ? token.balance : '0.00'} 
-            {/* <span className="cursor-pointer text-indigo-600 hover:text-indigo-800">Max</span> */}
-          </p>
+          <button className="text-sm text-gray-500 mt-1" onClick={handleFullBalance}>
+            Balance: {fetchBalance(selectedTokenSymbol)}
+          </button>
         </div>
       </div>
       <ArrowDown />
@@ -128,6 +146,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage}) => {
             <SelectTokenPopup
               tokens={tokens}
               isOpen={isPopupOpen}
+              userBalances={userBalances}
               onClose={() => setIsPopupOpen(false)}
               onSelect={handleSelectToken}
             />

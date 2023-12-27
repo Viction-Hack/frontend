@@ -4,11 +4,16 @@ import MintBox from './MintBox';
 import RedeemBox from './RedeemBox';
 import Settings from '@/ui/Settings';
 import SettingsPopup from '@/ui/SettingsPopup';
+import { useSelector } from "react-redux";
+import { RootState } from "@/utils/store/store";
 
 export default function ActionBox() {
   const [isMinting, setIsMinting] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedSlippage, setSelectedSlippage] = useState(0.3);
+
+  const userBalances = useSelector((state: RootState) => state.userBalances);
+  const prices = useSelector((state: RootState) => state.tokenPrices);
 
   const handleMintOrRedeem = () => {
     setIsMinting(!isMinting);
@@ -47,7 +52,8 @@ export default function ActionBox() {
         </div>
         <div>
           {isMinting ? 
-            <MintBox slippage={selectedSlippage} /> : <RedeemBox slippage={selectedSlippage} /> 
+            <MintBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices} /> 
+            : <RedeemBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices}/> 
           }
         </div>
       </div>

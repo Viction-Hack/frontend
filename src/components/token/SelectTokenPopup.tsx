@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Token } from '@/utils/constants/tokenlist';
+import { UserBalance } from '@/utils/store/features/types';
 
 interface SelectTokenPopupProps {
   tokens: Token[];
   isOpen: boolean;
+  userBalances: UserBalance;
   onClose: () => void;
   onSelect: (tokenSymbol: string) => void;
 }
 
-const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, onClose, onSelect }) => {
+const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, userBalances, onClose, onSelect }) => {
   const [selectedToken, setSelectedToken] = useState<string>('');
 
   const handleTokenClick = (tokenSymbol: string) => {
@@ -16,6 +18,20 @@ const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, onC
     onSelect(tokenSymbol);
     console.log(tokenSymbol);
   };
+
+  const fetchBalance = (tokenSymbol: string) => {
+    if (tokenSymbol === 'VIC') {
+      return userBalances.VIC
+    } else if (tokenSymbol === 'ETH') {
+      return userBalances.ETH
+    } else if (tokenSymbol === 'DAI') {
+      return userBalances.DAI
+    } else if (tokenSymbol === 'DUSD') {
+      return userBalances.DUSD
+    } else {
+      return 0.00
+    }
+  }
 
   if (!isOpen) {
     return null;
@@ -36,7 +52,7 @@ const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, onC
                 <img src={token.logoUrl} alt={token.symbol} className="h-6 w-6 rounded-full mr-2" />
                 <span>{token.name}</span>
               </div>
-              <span>{token.balance}</span>
+              <span>{fetchBalance(token.symbol)}</span>
             </li>
           ))}
         </ul>

@@ -13,6 +13,7 @@ export const useMint = (
   getSelectedToken: () => string | undefined,
   getCollateralAmount: () => string | undefined,
   getMinDUSDCAmount: () => number | undefined,
+  slippage: number
 ): UseMintHook => {
   const [error, setError] = useState<Error | null>(null);
 
@@ -41,7 +42,7 @@ export const useMint = (
       if (selectedToken === 'VIC') {
         tx = await controllerContract.mintWithVic(
           user,
-          dUSDCAmountInWei /* TODO: Include slippage */,
+          dUSDCAmountInWei.mul(1 - slippage / 100),
           0 /* TODO: specify deadline */, 
           {value: collateralAmountInWei}
         );
@@ -56,7 +57,7 @@ export const useMint = (
           collateralTokenContract.address,
           user,
           collateralAmountInWei,
-          dUSDCAmountInWei /* TODO: Include slippage */,
+          dUSDCAmountInWei.mul(1 - slippage / 100),
           0 /* TODO: specify deadline */
         );
       }

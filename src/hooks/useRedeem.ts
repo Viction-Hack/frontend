@@ -12,6 +12,7 @@ export const useRedeem = (
   getSelectedToken: () => string | undefined,
   getCollateralAmount: () => string | undefined,
   getMinDUSDCAmount: () => number | undefined,
+  slippage: number
 ): UseRedeemHook => {
   const [error, setError] = useState<Error | null>(null);
 
@@ -50,7 +51,7 @@ export const useRedeem = (
         collateralAddr,
         user,
         dUSDCAmountInWei,
-        collateralAmountInWei /* TODO: Include slippage */,
+        collateralAmountInWei.mul(1 - slippage / 100),
         0 /* TODO: specify deadline */
       );
       await tx.wait();

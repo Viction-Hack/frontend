@@ -2,19 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
-import calculateExchangeRate from '@/utils/calculateExchangeRate';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
 import { useMint } from '@/hooks/useMint';
 import { ERC20_ABI } from '@/utils/constants/constants';
 import { Token, tokenList } from '@/utils/constants/tokenlist';
+import { UserBalance, TokenPrice } from '@/utils/store/features/types';
 
 interface MintBoxProps {
   slippage: number;
+  userBalances: UserBalance;
+  tokenPrices: TokenPrice;
 }
 
-const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
+const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) => {
   const {walletProvider} = useWeb3ModalProvider();
   const [collateralAmount, setCollateralAmount] = useState('');
   const [mintAmount, setMintAmount] = useState(0.0);
@@ -33,6 +35,7 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
     () => selectedTokenSymbol,
     () => collateralAmount,
     () => mintAmount,
+    slippage,
   );
 
   let tokens = tokenList().slice(0, 3);
@@ -42,8 +45,20 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
 
   const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
     setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId === 89); // Assuming 89 is the chainId for Viction
+    setIsViction(newNetwork.chainId === 89);
   };
+
+  const fetchBalance = (tokenSymbol: string) => {
+    if (tokenSymbol === 'VIC') {
+      return userBalances.VIC
+    } else if (tokenSymbol === 'ETH') {
+      return userBalances.ETH
+    } else if (tokenSymbol === 'DAI') {
+      return userBalances.DAI
+    } else {
+      return 0.0
+    }
+  }
 
   if (walletProvider) {
     ethersProvider = new ethers.providers.Web3Provider(walletProvider);
@@ -69,8 +84,7 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
       return;
     }
     setCollateralAmount(amount);
-    const exchangeRate = calculateExchangeRate(selectedTokenSymbol, amount);
-    setMintAmount(exchangeRate * parseInt(amount));
+    setMintAmount(tokenPrices[selectedTokenSymbol] * Number(amount));
     setIsLoading(false);
   }
 
@@ -80,6 +94,11 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
     console.log('token', token);
     setIsPopupOpen(false);
   };
+
+  const handleFullBalance = () => {
+    setCollateralAmount(fetchBalance(selectedTokenSymbol).toString());
+    setMintAmount(tokenPrices[selectedTokenSymbol] * fetchBalance(selectedTokenSymbol));
+  }
 
   // for testing
   const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -116,6 +135,7 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
             <label className="sr-only">Currency</label>
             <SelectTokenPopup
               tokens={tokens}
+              userBalances={userBalances}
               isOpen={isPopupOpen}
               onClose={() => setIsPopupOpen(false)}
               onSelect={handleSelectToken}
@@ -130,9 +150,9 @@ const MintBox: React.FC<MintBoxProps> = ({slippage}) => {
           </div>
         </div>
         <div className="flex flex-col items-end mb-10 p-3">
-          <p className="text-sm text-gray-500 mt-1">
-            Balance: {token ? token.balance : '0.00'}
-          </p>
+          <button className="text-sm text-gray-500 mt-1" onClick={handleFullBalance}>
+            Balance: {fetchBalance(selectedTokenSymbol)}
+          </button>
         </div>
       </div>
       <ArrowDown />
