@@ -22,10 +22,11 @@ export default function Dashboard() {
           <div className="flex flex-row container mx-auto px-4 md:px-6">
             <UserBox />
             <VusdBox />
-          </div>
-          <div className="flex flex-row container mx-auto px-4 md:px-6">
             <Faucet />
           </div>
+          {/* <div className="flex flex-row container mx-auto px-4 md:px-6">
+            
+          </div> */}
         </section>
       </main>
     </>

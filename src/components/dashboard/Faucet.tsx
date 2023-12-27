@@ -37,8 +37,8 @@ export default function Faucet() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mx-auto mb-3 w-full">
-      <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 m-3 w-full">
+    <div className="flex flex-col justify-center items-center mx-auto mb-3 w-2/5 h-auto">
+      <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 w-full">
         <div className="flex flex-row items-start grid grid-cols-6 px-1 py-1">
           <div className="text-lg font-medium text-gray-900 mb-10">Faucet</div>
         </div>
