@@ -9,6 +9,7 @@ import { useMint } from '@/hooks/useMint';
 import { ERC20_ABI } from '@/utils/constants/constants';
 import { Token, tokenList } from '@/utils/constants/tokenlist';
 import { UserBalance, TokenPrice } from '@/utils/store/features/types';
+import { displayTwoDecimalPlaces } from '@/utils/displayTwoDecimalPlaces';
 
 interface MintBoxProps {
   slippage: number;
@@ -50,11 +51,11 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
 
   const fetchBalance = (tokenSymbol: string) => {
     if (tokenSymbol === 'VIC') {
-      return userBalances.VIC
+      return displayTwoDecimalPlaces(userBalances.VIC)
     } else if (tokenSymbol === 'ETH') {
-      return userBalances.ETH
+      return displayTwoDecimalPlaces(userBalances.ETH)
     } else if (tokenSymbol === 'DAI') {
-      return userBalances.DAI
+      return displayTwoDecimalPlaces(userBalances.DAI)
     } else {
       return 0.0
     }

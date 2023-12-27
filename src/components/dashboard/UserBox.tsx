@@ -1,6 +1,7 @@
 import CollateralTable from "./CollateralTable"
 import { useSelector } from "react-redux";
 import { RootState } from "@/utils/store/store";
+import { displayTwoDecimalPlaces } from "@/utils/displayTwoDecimalPlaces";
 
 export default function UserBox() {
   const userBalance = useSelector((state: RootState) => state.userBalances);
@@ -18,7 +19,7 @@ export default function UserBox() {
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">DUSD in Your Wallet</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-start-3">
-                {userBalance.DUSD} DUSD
+                {displayTwoDecimalPlaces(userBalance.DUSD)} DUSD
               </dd>
             </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

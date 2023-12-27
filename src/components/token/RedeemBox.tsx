@@ -8,6 +8,7 @@ import SelectTokenPopup from './SelectTokenPopup';
 import { useRedeem } from '@/hooks/useRedeem';
 import { Token, tokenList } from '@/utils/constants/tokenlist';
 import { UserBalance, TokenPrice } from '@/utils/store/features/types';
+import { displayTwoDecimalPlaces } from '@/utils/displayTwoDecimalPlaces';
 
 interface RedeemBoxProps {
   slippage: number;
@@ -62,11 +63,11 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
 
   const fetchBalance = (tokenSymbol: string) => {
     if (tokenSymbol === 'VIC') {
-      return userBalances.VIC
+      return displayTwoDecimalPlaces(userBalances.VIC)
     } else if (tokenSymbol === 'ETH') {
-      return userBalances.ETH
+      return displayTwoDecimalPlaces(userBalances.ETH)
     } else if (tokenSymbol === 'DAI') {
-      return userBalances.DAI
+      return displayTwoDecimalPlaces(userBalances.DAI)
     } else {
       return 0.0
     }
