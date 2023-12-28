@@ -34,7 +34,7 @@ export const useTransfer = (
       return;
     }
 
-    const dstChainId = chainId === 89 ? 421614 : 89;
+    const dstChainId = chainId === 89 ? 10231 : 10196;
 
     try {
       let tx;
@@ -66,7 +66,7 @@ export const useTransfer = (
       tx = await dUsdTokenContract.sendFrom(
         user,
         dstChainId,
-        user,
+        addressToBytes32WithSuffixPadding(user?.toLowerCase() || ''),
         dUSDCAmountInWei,
         {
           refundAddress: user,
@@ -92,3 +92,15 @@ export const useTransfer = (
 
   return { transfer, error };
 };
+
+function addressToBytes32WithSuffixPadding(address: string) {
+  if (address.startsWith('0x')) {
+      address = address.substring(2);
+  }
+
+  if (address.length !== 40) {
+      throw new Error('Invalid address length');
+  }
+
+  return '0x' + address.padEnd(64, '0');
+}

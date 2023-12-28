@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ethers, Signer, BigNumber } from 'ethers';
+import { ethers, Signer } from 'ethers';
 import { CONTROLLER_ABI, CONTROLLER_ADDR } from '@/utils/constants/constants';
 import { useDispatch } from 'react-redux';
 import { 
@@ -50,11 +50,11 @@ export const useMint = (
       console.log('dUSDCAmountInWei', dUSDCAmountInWei.toString());
       if (selectedToken === 'VIC') {
         dispatch(addTransaction({ id: 'Mint DUSD', status: 'pending' }));
-        
+        const slip = (1 - slippage)*1000;
         tx = await controllerContract.mintWithVic(
           user,
-          dUSDCAmountInWei.mul(1 - slippage / 100),
-          0 /* TODO: specify deadline */, 
+          dUSDCAmountInWei.mul(slip).div(1000),
+          2000000000, 
           {value: collateralAmountInWei}
         );
         
@@ -68,17 +68,15 @@ export const useMint = (
           const tx = await collateralTokenContract.approve(CONTROLLER_ADDR, collateralAmountInWei);
           await tx.wait();
         }
-
-        await delay(5000);
-
         dispatch(updateTransactionStatus({ id: 'Approve Controller', status: 'completed' }));
+        const slip = (1 - slippage)*1000;
 
         tx = await controllerContract.mint(
           collateralTokenContract.address,
           user,
           collateralAmountInWei,
-          dUSDCAmountInWei.mul(1 - slippage / 100),
-          0 /* TODO: specify deadline */
+          dUSDCAmountInWei.mul(slip).div(1000),
+          2000000000
         );
 
       }

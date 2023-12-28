@@ -97,15 +97,20 @@ export async function initializeStore(userAddress: string) {
     const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [userAddress]);
     arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
 
-    const { _blockNumber, vicReturnData } = await vicMulticall.aggregate(vicCalls);
-    const { _arbBlockNumber, arbReturnData } = await arbMulticall.aggregate(arbCalls);
+    const vicRes = await vicMulticall.callStatic.aggregate(vicCalls);
+    const arbRes = await arbMulticall.callStatic.aggregate(arbCalls);
 
-    const vicDecodedData = vicReturnData.map((data: any) => {
+    console.log('arbRes', arbRes);
+
+    const vicDecodedData = vicRes[1].map((data: any) => {
       const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], data);
       return decoded[0];
     });
-    const arbDecodedData: ReturnDataType[] = arbReturnData.map((data: any) => {
+    const arbDecodedData: ReturnDataType[] = arbRes[1].map((data: any) => {
       // Decode the data as a tuple containing an int256 and a uint256
+      if (data == '0x') {
+        return { amount: 0, entryPrice: 0 };
+      }
       const [amount, entryPrice] = ethers.utils.defaultAbiCoder.decode(
         ['int256', 'uint256'],
         data
@@ -115,24 +120,24 @@ export async function initializeStore(userAddress: string) {
     });
 
     userBalances = {
-      DUSD: vicDecodedData[0],
-      ETH: vicDecodedData[1],
-      DAI: vicDecodedData[2],
-      VIC: vicDecodedData[3],
+      VIC: Number(ethers.utils.formatEther(vicDecodedData[0])),
+      ETH: Number(ethers.utils.formatEther(vicDecodedData[1])),
+      DAI: Number(ethers.utils.formatEther(vicDecodedData[2])),
+      DUSD: Number(ethers.utils.formatEther(vicDecodedData[3])),
     };
 
     positions = {
       positions: [
         {
-          amount: arbDecodedData[0].amount.div(1e18).toNumber(),
-          entryPrice: arbDecodedData[0].entryPrice.div(1e18).toNumber(),
+          amount: 0,
+          entryPrice: 0,
         },
       ],
     };
 
     dusdSupplyInfo = {
-      totalSupply: vicDecodedData[4],
-      victionSupply: vicDecodedData[5],
+      totalSupply: Number(ethers.utils.formatEther(vicDecodedData[4])),
+      victionSupply: Number(ethers.utils.formatEther(vicDecodedData[5])),
     };
   } catch (e) {
     console.error('Failed to fetch initial data:', e);

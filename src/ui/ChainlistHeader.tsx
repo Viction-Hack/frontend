@@ -18,14 +18,14 @@ const AddChainButton = () => {
           method: 'wallet_addEthereumChain',
           params: [
             {
-              chainName: 'Viction Testnet',
+              chainName: 'Tomochain Testnet',
               chainId: `0x${chainId.toString(16)}`, // Convert the chainId to hexadecimal
               nativeCurrency: {
                 name: 'Viction',
                 decimals: 18,
-                symbol: 'VIC',
+                symbol: 'TOMO',
               },
-              rpcUrls: ['https://rpc-testnet.viction.xyz/'],
+              rpcUrls: ['https://rpc.testnet.tomochain.com/'],
             },
           ],
         });

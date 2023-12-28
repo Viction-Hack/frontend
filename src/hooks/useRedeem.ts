@@ -55,15 +55,15 @@ export const useRedeem = (
       }
       dispatch(updateTransactionStatus({ id: 'Approve Controller', status: 'completed' }));
       
-      // TODO: Fix this to use the correct collateral address
       const collateralAddr = selectedToken === 'VIC' ? ethers.constants.AddressZero : selectedToken;
+      const slip = (1 - slippage)*1000;
 
       tx = await controllerContract.redeem(
         collateralAddr,
         user,
         dUSDCAmountInWei,
-        collateralAmountInWei.mul(1 - slippage / 100),
-        0 /* TODO: specify deadline */
+        collateralAmountInWei.mul(slip).div(1000),
+        2000000000
       );
       await tx.wait();
       dispatch(deleteTransaction('Approve Controller'));

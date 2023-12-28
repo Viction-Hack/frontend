@@ -1,7 +1,7 @@
 import { tokenList } from "./tokenlist";
 
 const tokensList = tokenList();
-export const CONTROLLER_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const CONTROLLER_ADDR = '0x0789FdE58A90c4B80C273767dbe5165ba4c9c518';
 export const CONTROLLER_ABI = [
     {
       "type":"function",
@@ -48,7 +48,7 @@ export const CONTROLLER_ABI = [
 export const VICTION_DAI_ADDR = tokensList[1].address;
 export const VICTION_ETH_ADDR = tokensList[2].address;
 export const DUSD_ADDR = tokensList[3].address;
-export const ARB_VIC_ADDR = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+export const ARB_VIC_ADDR = "0x8269c57FBea0176ae1d4e302661c07ae11873751";
 
 export const ERC20_ABI = [
     {
@@ -110,7 +110,7 @@ export const ERC20_ABI = [
         stateMutability: "payable"}
 ];
 
-export const ARB_FUTURES_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const ARB_FUTURES_ADDR = '0x07DCBBd3dD79AD8adA931b184Ba3e5e61366588B';
 export const ARB_FUTURES_ABI = [
   {
     "inputs": [
@@ -133,8 +133,12 @@ export const ARB_FUTURES_ABI = [
   },
 ];
 
-export const VICTION_MULTICALL_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-export const ARB_MULTICALL_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const VIC_VAULT_ADDR = '0xde22aE28d9dad32938fe339f5E7a999Ff737e907';
+export const DAI_VAULT_ADDR = '0x95df672dA95De0b85272E46576d9C3EEd18c1482';
+export const ETH_VAULT_ADDR = '0xa5643aeDf7d69AABd53F2e3a610ACeC8B2ae6338';
+
+export const VICTION_MULTICALL_ADDR = '0xb35042A41B49c5Fe09c8c3946650Cc3d73a22074';
+export const ARB_MULTICALL_ADDR = '0xF9B74aF132e63031B5546e93425A9De56ED9e38c';
 
 export const MULTICALL_ABI = [
   {
@@ -214,10 +218,10 @@ export const MULTICALL_ABI = [
   }
 ]
 
-export const FAUCET_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+export const FAUCET_ADDR = '0xc460FFa08Ee49cBfCFD06A95De0EFB54391C2f24';
 export const FAUCET_ABI = [
   {
-    "inputs": [{ "name": "user", "type": "address" }],
+    "inputs": [],
     "name": "mint",
     "outputs": [],
     "stateMutability": "nonpayable",

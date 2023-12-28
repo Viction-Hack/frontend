@@ -26,7 +26,7 @@ export const useFaucet = (
     try {
       const faucetContract = new ethers.Contract(FAUCET_ADDR, FAUCET_ABI, signer);
       let tx;
-      tx = await faucetContract.mint(user);
+      tx = await faucetContract.mint();
       await tx.wait();
 
       console.log('Transfering successful');

@@ -49,6 +49,8 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
     setIsViction(newNetwork.chainId === 89);
   };
 
+  console.log('userBalances', userBalances);
+
   const fetchBalance = (tokenSymbol: string) => {
     if (tokenSymbol === 'VIC') {
       return displayTwoDecimalPlaces(userBalances.VIC)
