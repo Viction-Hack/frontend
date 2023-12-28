@@ -34,7 +34,7 @@ export const useTransfer = (
       return;
     }
 
-    const dstChainId = chainId === 89 ? 10231 : 10196;
+    const dstChainId = chainId === 89 ? 10106 : 10196;
 
     try {
       let tx;
@@ -51,24 +51,23 @@ export const useTransfer = (
       }
 
       dispatch(updateTransactionStatus({ id: 'Approve Router', status: 'completed' }));
-      const version = 1;
-      const gasLimit = 350000;
-      const adapterParams = ethers.utils.solidityPack(
-        ['uint16', 'uint256'],
-        [version, gasLimit]
-      )
-      const params = {
-        refundAddress: user,
-        zroPaymentAddress: ethers.constants.AddressZero,
-        adapterParams: adapterParams,
-      };
+      // const version = 1;
+      // const gasLimit = 350000;
+      // const adapterParams = ethers.utils.solidityPack(
+      //   ['uint16', 'uint256'],
+      //   [version, gasLimit]
+      // )
+      // const params = {
+      //   refundAddress: user,
+      //   zroPaymentAddress: ethers.constants.AddressZero,
+      //   adapterParams: adapterParams,
+      // };
 
       tx = await dUsdTokenContract.sendFrom(
         user,
         dstChainId,
         addressToBytes32WithSuffixPadding(user ?? ''),
         dUSDCAmountInWei,
-        params
       );
       await tx.wait();
 

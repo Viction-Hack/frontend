@@ -19,23 +19,23 @@ export const tokenList = () => {
     {
       name: "Dai Stablecoin",
       symbol: "DAI",
-      address: "0xa21b20E49c92653bA143009B89d936818a3b7609",
+      address: "0xEC3Ac809B27da7cdFC306792DA72aA896ed865eD",
       decimals: 18,
       logoUrl: "/dai.svg"
     },
     {
       name: "Ethereum",
       symbol: "ETH",
-      address: "0x43f9440E54123f288d319C355671Dad9F27c2986",
+      address: "0xA5f8B90975C6f3b15c90CbC75b44F10300b42bbe",
       decimals: 18,
       logoUrl: "/ethereum.svg"
     },
     {
       name: "Doldrums USD",
       symbol: "DUSD",
-      address: "0x8ec92FE248Fcf857d0F1cD1346AE3264bC0376A1",
+      address: "0x46F96fB34Ac52DaE43E7FC441F429d2F5BcCDf52",
       decimals: 18,
-      logoUrl: "/dai.svg"
+      logoUrl: "/icon.svg"
     }
   ]
 } 

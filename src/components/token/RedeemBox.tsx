@@ -68,6 +68,8 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
       return displayTwoDecimalPlaces(userBalances.ETH)
     } else if (tokenSymbol === 'DAI') {
       return displayTwoDecimalPlaces(userBalances.DAI)
+    } else if (tokenSymbol === 'DUSD') {
+      return displayTwoDecimalPlaces(userBalances.DUSD)
     } else {
       return 0.0
     }
@@ -132,7 +134,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
         
         <div className="flex flex-col items-end mb-10 p-3">
           <button className="text-sm text-gray-500 mt-1" onClick={handleFullBalance}>
-            Balance: {fetchBalance(selectedTokenSymbol)}
+            Balance: {fetchBalance('DUSD')}
           </button>
         </div>
       </div>

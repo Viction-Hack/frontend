@@ -1,7 +1,7 @@
 import { tokenList } from "./tokenlist";
 
 const tokensList = tokenList();
-export const CONTROLLER_ADDR = '0x0789FdE58A90c4B80C273767dbe5165ba4c9c518';
+export const CONTROLLER_ADDR = '0x31C6d1884E408B63A910eF547afdA1180d919e13';
 export const CONTROLLER_ABI = [
     {
       "type":"function",
@@ -48,7 +48,7 @@ export const CONTROLLER_ABI = [
 export const VICTION_DAI_ADDR = tokensList[1].address;
 export const VICTION_ETH_ADDR = tokensList[2].address;
 export const DUSD_ADDR = tokensList[3].address;
-export const ARB_VIC_ADDR = "0x8269c57FBea0176ae1d4e302661c07ae11873751";
+export const ARB_VIC_ADDR = "0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a";
 
 export const ERC20_ABI = [
     {
@@ -93,24 +93,36 @@ export const ERC20_ABI = [
         stateMutability: "view"
     },
     {
-        type: "function",
-        name: "sendFrom",
-        inputs:[
-            {name: "_from",type:"address",internalType: "address"},
-            {name: "_dstChainId", type: "uint16",internalType: "uint16"},
-            {name: "_toAddress", type: "bytes32", internalType: "bytes32"},
-            {name: "_amount", type: "uint256", internalType: "uint256"},
-            {name: "_callParams", type :"tuple", internalType :"struct ICommonOFT.LzCallParams", components:[
-                {name: "refundAddress", type: "address", internalType: "address payable"},
-                {name: "zroPaymentAddress", type: "address", internalType: "address"},
-                {name: "adapterParams", type: "bytes", internalType: "bytes"}]
-            }
-        ],
-        outputs:[],
-        stateMutability: "payable"}
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "uint16",
+          "name": "_dstChainId",
+          "type": "uint16"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_toAddress",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "sendFrom",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
 ];
 
-export const ARB_FUTURES_ADDR = '0x07DCBBd3dD79AD8adA931b184Ba3e5e61366588B';
+export const ARB_FUTURES_ADDR = '0xf8efeBAec7C3a37106e14a8d4994Db730dDbC08F';
 export const ARB_FUTURES_ABI = [
   {
     "inputs": [
@@ -133,12 +145,12 @@ export const ARB_FUTURES_ABI = [
   },
 ];
 
-export const VIC_VAULT_ADDR = '0xde22aE28d9dad32938fe339f5E7a999Ff737e907';
-export const DAI_VAULT_ADDR = '0x95df672dA95De0b85272E46576d9C3EEd18c1482';
-export const ETH_VAULT_ADDR = '0xa5643aeDf7d69AABd53F2e3a610ACeC8B2ae6338';
+export const VIC_VAULT_ADDR = '0xD0d5E2931C9134b6E8DDe9Be67E814f4bFF50bC5';
+export const DAI_VAULT_ADDR = '0x109Eca9F83C18Da5563b5c978E421444c8A37E55';
+export const ETH_VAULT_ADDR = '0xAdbb76D0454De0365a9c1D6a93DdAD7CCa572BbA';
 
 export const VICTION_MULTICALL_ADDR = '0xb35042A41B49c5Fe09c8c3946650Cc3d73a22074';
-export const ARB_MULTICALL_ADDR = '0xF9B74aF132e63031B5546e93425A9De56ED9e38c';
+export const ARB_MULTICALL_ADDR = '0xAbE7DCBf580d485f669805FF42C31df2Ed3BE4a5';
 
 export const MULTICALL_ABI = [
   {
@@ -218,7 +230,7 @@ export const MULTICALL_ABI = [
   }
 ]
 
-export const FAUCET_ADDR = '0xc460FFa08Ee49cBfCFD06A95De0EFB54391C2f24';
+export const FAUCET_ADDR = '0xD3e1b64B8C5D035A6dBda52FD420132D1bB90BB2';
 export const FAUCET_ABI = [
   {
     "inputs": [],

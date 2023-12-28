@@ -6,7 +6,7 @@ export default function VusdBox() {
   const dusdSupplyInfo = useSelector((state: RootState) => state.dusdSupplyInfo);
 
   const data = [
-    { id: "Arbitrum", value: dusdSupplyInfo.totalSupply - dusdSupplyInfo.victionSupply, color: "#2d623b" },
+    { id: "Avalanche", value: dusdSupplyInfo.totalSupply - dusdSupplyInfo.victionSupply, color: "#2d623b" },
     { id: "Viction", value: dusdSupplyInfo.victionSupply, color: "#bbf7d0" },
   ];
 

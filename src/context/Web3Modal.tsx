@@ -14,12 +14,12 @@ const victionTestnet = {
   rpcUrl: 'https://rpc.testnet.tomochain.com/'
 }
 
-const arbitrumSepolia = {
-  chainId: 421614,
-  name: 'Arbitrum Sepolia',
-  currency: 'ETH',
-  explorerUrl: 'https://sepolia-explorer.arbitrum.io/',
-  rpcUrl: 'https://sepolia-rollup.arbitrum.io/rpc/'
+const avalancheFujiTestnet = {
+  chainId: 43113,
+  name: 'Avalanche Fuji Testnet',
+  currency: 'AVAX',
+  explorerUrl: 'https://testnet.snowtrace.io/',
+  rpcUrl: 'https://rpc.ankr.com/avalanche_fuji/'
 }
 
 // 3. Create modal
@@ -32,7 +32,7 @@ const metadata = {
 
 createWeb3Modal({
   ethersConfig: defaultConfig({ metadata }),
-  chains: [victionTestnet, arbitrumSepolia],
+  chains: [victionTestnet, avalancheFujiTestnet],
   defaultChain: victionTestnet,
   projectId,
   themeMode: 'light',

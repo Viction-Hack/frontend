@@ -44,8 +44,8 @@ export const useRedeem = (
       dispatch(addTransaction({ id: 'Approve Controller', status: 'pending' }));
       dispatch(addTransaction({ id: 'Mint DUSD', status: 'pending' }));
 
-      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0').mul(1e18);
-      const dUSDCAmountInWei = BigNumber.from(dUSDAmount?.toString() || '0').mul(1e18);
+      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0');
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
 
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
       const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
