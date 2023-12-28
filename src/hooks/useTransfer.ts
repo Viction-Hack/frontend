@@ -44,35 +44,31 @@ export const useTransfer = (
       dispatch(addTransaction({ id: 'Approve Router', status: 'pending' }));
       dispatch(addTransaction({ id: 'Transfer DUSD', status: 'pending' }));
 
-      const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
+      const allowance = await dUsdTokenContract.allowance(user, DUSD_ADDR);
       if (allowance.lt(dUSDCAmountInWei)) {
-        const tx = await dUsdTokenContract.approve(CONTROLLER_ADDR, dUSDCAmountInWei);
+        const tx = await dUsdTokenContract.approve(DUSD_ADDR, dUSDCAmountInWei);
         await tx.wait();
       }
 
       dispatch(updateTransactionStatus({ id: 'Approve Router', status: 'completed' }));
-
       const version = 1;
       const gasLimit = 350000;
-      const encodedVersion = ethers.utils.zeroPad(ethers.utils.arrayify(version), 2);
-      const encodedGasLimit = ethers.utils.defaultAbiCoder.encode(['uint256'], [gasLimit]);
-      const adapterParams = ethers.utils.concat(
-        [
-          encodedVersion,
-          ethers.utils.arrayify(encodedGasLimit)
-        ]
-      );
+      const adapterParams = ethers.utils.solidityPack(
+        ['uint16', 'uint256'],
+        [version, gasLimit]
+      )
+      const params = {
+        refundAddress: user,
+        zroPaymentAddress: ethers.constants.AddressZero,
+        adapterParams: adapterParams,
+      };
 
       tx = await dUsdTokenContract.sendFrom(
         user,
         dstChainId,
-        addressToBytes32WithSuffixPadding(user?.toLowerCase() || ''),
+        addressToBytes32WithSuffixPadding(user ?? ''),
         dUSDCAmountInWei,
-        {
-          refundAddress: user,
-          zroPaymentAddress: ethers.constants.AddressZero,
-          adapterParams: adapterParams,
-        }
+        params
       );
       await tx.wait();
 
@@ -103,4 +99,16 @@ function addressToBytes32WithSuffixPadding(address: string) {
   }
 
   return '0x' + address.padEnd(64, '0');
+}
+
+function addressToBytes32(address: string) {
+  if (address.startsWith('0x')) {
+      address = address.substring(2);
+  }
+
+  if (address.length !== 40) {
+      throw new Error('Invalid address length');
+  }
+
+  return '0x' + address.padStart(64, '0');
 }
