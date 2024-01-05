@@ -13,6 +13,7 @@ import { ethers } from 'ethers';
 type ReturnDataType = {
   amount: ethers.BigNumber;
   entryPrice: ethers.BigNumber;
+  supply: ethers.BigNumber;
 };
 
 export async function initializeStore(userAddress: string) {
@@ -61,6 +62,8 @@ export async function initializeStore(userAddress: string) {
     };
   }
 
+  const ARB_DUSD_ADDR = '0xf40E719D4F215712D9DC9a0568791E408c71760F';
+
   
   // 1. Get user balances through multicall
   // 2. Get user positions through multicall
@@ -70,6 +73,7 @@ export async function initializeStore(userAddress: string) {
     const vicMulticall = new ethers.Contract(VICTION_MULTICALL_ADDR, MULTICALL_ABI, vicProvider);
     const arbMulticall = new ethers.Contract(ARB_MULTICALL_ADDR, MULTICALL_ABI, arbProvider);
     const arbFutures = new ethers.Contract(ARB_FUTURES_ADDR, ARB_FUTURES_ABI, arbProvider);
+    const arbDusdContract = new ethers.Contract(ARB_DUSD_ADDR, ERC20_ABI, arbProvider);
 
     const tokensList = tokenList();
     let vicCalls = [];
@@ -95,7 +99,9 @@ export async function initializeStore(userAddress: string) {
       }
     }
     const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [userAddress]);
+    const arbSupplyCalldata = arbDusdContract.interface.encodeFunctionData('totalSupply', []);
     arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
+    arbCalls.push([ARB_DUSD_ADDR, arbSupplyCalldata]);
 
     const vicRes = await vicMulticall.callStatic.aggregate(vicCalls);
     const arbRes = await arbMulticall.callStatic.aggregate(arbCalls);
@@ -106,18 +112,15 @@ export async function initializeStore(userAddress: string) {
       const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], data);
       return decoded[0];
     });
-    const arbDecodedData: ReturnDataType[] = arbRes[1].map((data: any) => {
-      // Decode the data as a tuple containing an int256 and a uint256
-      if (data == '0x') {
-        return { amount: 0, entryPrice: 0 };
-      }
-      const [amount, entryPrice] = ethers.utils.defaultAbiCoder.decode(
-        ['int256', 'uint256'],
-        data
-      );
-      // Return the decoded values in the structured format
-      return { amount, entryPrice };
-    });
+    const positionDecodedData = ethers.utils.defaultAbiCoder.decode(
+      ['int256', 'uint256'], arbRes[1][0]
+    );
+    const arbSupplyDecodedData = ethers.utils.defaultAbiCoder.decode(
+      ['uint256'], arbRes[1][1]
+    );
+
+    console.log('positionDecodedData', positionDecodedData);
+    console.log('arbSupplyDecodedData', arbSupplyDecodedData);
 
     userBalances = {
       VIC: Number(ethers.utils.formatEther(vicDecodedData[0])),
@@ -137,7 +140,8 @@ export async function initializeStore(userAddress: string) {
 
     dusdSupplyInfo = {
       totalSupply: Number(ethers.utils.formatEther(vicDecodedData[4])),
-      victionSupply: Number(ethers.utils.formatEther(vicDecodedData[5])),
+      // victionSupply: Number(ethers.utils.formatEther(arbSupplyDecodedData[0].supply)),
+      victionSupply: Number(ethers.utils.formatEther(arbSupplyDecodedData[0])),
     };
   } catch (e) {
     console.error('Failed to fetch initial data:', e);

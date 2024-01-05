@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { ethers, Signer, BigNumber } from 'ethers';
-import { CONTROLLER_ABI, CONTROLLER_ADDR, DUSD_ADDR, ERC20_ABI } from '@/utils/constants/constants';
+import { ethers, Signer } from 'ethers';
+import { DUSD_ADDR, ERC20_ABI } from '@/utils/constants/constants';
 import { useDispatch } from 'react-redux';
 import { 
   addTransaction,
@@ -34,34 +34,30 @@ export const useTransfer = (
       return;
     }
 
+    console.log("Signer: ", signer);
+
     const dstChainId = chainId === 89 ? 10106 : 10196;
+    let dusdAddr = DUSD_ADDR;
+    if (chainId != 89) {
+      dusdAddr = '0xf40E719D4F215712D9DC9a0568791E408c71760F';
+    }
 
     try {
+      
       let tx;
       const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
-      const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
+      const dUsdTokenContract = new ethers.Contract(dusdAddr, ERC20_ABI, signer);
 
       dispatch(addTransaction({ id: 'Approve Router', status: 'pending' }));
       dispatch(addTransaction({ id: 'Transfer DUSD', status: 'pending' }));
 
-      const allowance = await dUsdTokenContract.allowance(user, DUSD_ADDR);
+      const allowance = await dUsdTokenContract.allowance(user, dusdAddr);
       if (allowance.lt(dUSDCAmountInWei)) {
-        const tx = await dUsdTokenContract.approve(DUSD_ADDR, dUSDCAmountInWei);
+        const tx = await dUsdTokenContract.approve(dusdAddr, dUSDCAmountInWei);
         await tx.wait();
       }
 
       dispatch(updateTransactionStatus({ id: 'Approve Router', status: 'completed' }));
-      // const version = 1;
-      // const gasLimit = 350000;
-      // const adapterParams = ethers.utils.solidityPack(
-      //   ['uint16', 'uint256'],
-      //   [version, gasLimit]
-      // )
-      // const params = {
-      //   refundAddress: user,
-      //   zroPaymentAddress: ethers.constants.AddressZero,
-      //   adapterParams: adapterParams,
-      // };
 
       tx = await dUsdTokenContract.sendFrom(
         user,
@@ -98,16 +94,4 @@ function addressToBytes32WithSuffixPadding(address: string) {
   }
 
   return '0x' + address.padEnd(64, '0');
-}
-
-function addressToBytes32(address: string) {
-  if (address.startsWith('0x')) {
-      address = address.substring(2);
-  }
-
-  if (address.length !== 40) {
-      throw new Error('Invalid address length');
-  }
-
-  return '0x' + address.padStart(64, '0');
 }
