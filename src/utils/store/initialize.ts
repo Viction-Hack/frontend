@@ -159,9 +159,9 @@ export async function initializeStore(userAddress: string) {
     };
 
     dusdSupplyInfo = {
-      totalSupply: Number(ethers.utils.formatEther(vicDecodedData[4])),
+      totalSupply: Number(ethers.utils.formatEther(arbSupplyDecodedData[0])),
       // victionSupply: Number(ethers.utils.formatEther(arbSupplyDecodedData[0].supply)),
-      victionSupply: Number(ethers.utils.formatEther(arbSupplyDecodedData[0])),
+      victionSupply: Number(ethers.utils.formatEther(vicDecodedData[4])),
     };
   } catch (e) {
     console.error('Failed to fetch initial data:', e);

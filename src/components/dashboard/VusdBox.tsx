@@ -8,7 +8,7 @@ export default function VusdBox() {
   const positions = useSelector((state: RootState) => state.positions);
 
   const data = [
-    { id: "Avalanche", value: dusdSupplyInfo.totalSupply - dusdSupplyInfo.victionSupply, color: "#4ade80" },
+    { id: "Avalanche", value: dusdSupplyInfo.totalSupply, color: "#4ade80" },
     { id: "Viction", value: dusdSupplyInfo.victionSupply, color: "#cbf5da" },
   ];
 
