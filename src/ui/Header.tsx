@@ -22,7 +22,7 @@ export default function Header() {
         <Link className="text-m font-medium hover:underline underline-offset-4" href="/oft">
           Bridge
         </Link>
-        <Link className="text-m font-medium hover:underline underline-offset-4" href="#">
+        <Link className="text-m font-medium hover:underline underline-offset-4" href="/earn">
           Earn
         </Link>
       </nav>
