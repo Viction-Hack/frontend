@@ -34,6 +34,7 @@ export async function initializeStore(userAddress: string) {
     ETH: 0.00,
     DAI: 0.00,
     VIC: 0.00,
+    DUSD_AVAX: 0.00,
   };
   let positions: PositionsState = {
     positions: [
@@ -115,10 +116,12 @@ export async function initializeStore(userAddress: string) {
     const daiPositionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [DAI_VAULT_ADDR]);
     const ethPositionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [ETH_VAULT_ADDR]);
     const arbSupplyCalldata = arbDusdContract.interface.encodeFunctionData('totalSupply', []);
+    const arbDusdBalanceCalldata = arbDusdContract.interface.encodeFunctionData('balanceOf', [userAddress]);
     arbCalls.push([ARB_FUTURES_ADDR, vicPositionCalldata]);
     arbCalls.push([ARB_FUTURES_ADDR, daiPositionCalldata]);
     arbCalls.push([ARB_FUTURES_ADDR, ethPositionCalldata]);
     arbCalls.push([ARB_DUSD_ADDR, arbSupplyCalldata]);
+    arbCalls.push([ARB_DUSD_ADDR, arbDusdBalanceCalldata]);
 
     const vicRes = await vicMulticall.callStatic.aggregate(vicCalls);
     const arbRes = await arbMulticall.callStatic.aggregate(arbCalls);
@@ -141,6 +144,9 @@ export async function initializeStore(userAddress: string) {
     const arbSupplyDecodedData = ethers.utils.defaultAbiCoder.decode(
       ['uint256'], arbRes[1][3]
     );
+    const arbDusdBalanceDecodedData = ethers.utils.defaultAbiCoder.decode(
+      ['uint256'], arbRes[1][4]
+    );
 
     console.log('arbSupplyDecodedData', arbSupplyDecodedData);
 
@@ -149,6 +155,7 @@ export async function initializeStore(userAddress: string) {
       ETH: Number(ethers.utils.formatEther(vicDecodedData[1])),
       DAI: Number(ethers.utils.formatEther(vicDecodedData[2])),
       DUSD: Number(ethers.utils.formatEther(vicDecodedData[3])),
+      DUSD_AVAX: Number(ethers.utils.formatEther(arbDusdBalanceDecodedData[0])),  
     };
 
     dusdSupplyInfo = {

@@ -12,7 +12,7 @@ export const tokenList = () => {
     {
       name: "Viction Coin",
       symbol: "VIC",
-      address: "0x0000000000000000000000000000000000000000",
+      address: "0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a",
       decimals: 18,
       logoUrl: "/viction.svg"
     },

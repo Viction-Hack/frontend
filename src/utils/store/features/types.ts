@@ -3,6 +3,7 @@ export interface UserBalance {
   ETH: number;
   DAI: number;
   VIC: number;
+  DUSD_AVAX: number;
 }
 
 export interface Position {

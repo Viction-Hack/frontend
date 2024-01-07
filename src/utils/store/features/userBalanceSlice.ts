@@ -6,6 +6,7 @@ const initialState: UserBalance = {
   ETH: 0.00,
   DAI: 0.00,
   VIC: 0.00,
+  DUSD_AVAX: 0.00,
 };
 
 export const userBalancesSlice = createSlice({

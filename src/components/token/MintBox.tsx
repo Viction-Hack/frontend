@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
+import { useWeb3ModalProvider, useWeb3ModalState } from '@web3modal/ethers5/react';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
@@ -30,6 +30,8 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
   const [signer, setSigner] = useState<ethers.Signer>();
   const [contractDetails, setContractDetails] = useState<{ address: string; abi: any }>();
 
+  const { open, selectedNetworkId } = useWeb3ModalState();
+
   const { mint, error } = useMint(
     () => signer,
     () => contractDetails,
@@ -44,9 +46,9 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
   let token: Token | undefined;
   let ethersProvider: ethers.providers.Web3Provider;
 
-  const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
-    setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId === 89);
+  const handleNetworkChange = () => {
+    setNetwork(Number(selectedNetworkId));
+    setIsViction(Number(selectedNetworkId) === 89);
   };
 
   console.log('userBalances', userBalances);
@@ -71,12 +73,11 @@ const MintBox: React.FC<MintBoxProps> = ({slippage, userBalances, tokenPrices}) 
   useEffect(() => {
     if (walletProvider) {
       setIsConnected(true);
-      ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-      ethersProvider.getNetwork().then(handleNetworkChange).catch(console.error);
+      handleNetworkChange();
     } else {
       setIsConnected(false);
     }
-  }, [walletProvider, network]);
+  }, [walletProvider, network, selectedNetworkId]);
 
   const handleMintAmount = (amount: string) => {
     setIsLoading(true);

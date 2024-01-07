@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ethers, Signer, BigNumber } from 'ethers';
-import { CONTROLLER_ABI, CONTROLLER_ADDR, DUSD_ADDR, ERC20_ABI } from '@/utils/constants/constants';
+import { CONTROLLER_ABI, CONTROLLER_ADDR, DUSD_ADDR, ERC20_ABI, VIC_VAULT_ADDR } from '@/utils/constants/constants';
 import { useDispatch } from 'react-redux';
 import { 
   addTransaction,
@@ -33,6 +33,15 @@ export const useRedeem = (
     const dUSDAmount = getMinDUSDAmount();
     const user = await signer?.getAddress();
 
+    let collateralAddr = '';
+    if (selectedToken === 'VIC') {
+      collateralAddr = '0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a';
+    } else if (selectedToken === 'ETH') {
+      collateralAddr = '0xA5f8B90975C6f3b15c90CbC75b44F10300b42bbe';
+    } else if (selectedToken === 'DAI') {
+      collateralAddr = '0xEC3Ac809B27da7cdFC306792DA72aA896ed865eD';
+    }
+
     if (!signer) {
       setError(new Error('Signer or contract details not set'));
       return;
@@ -49,20 +58,21 @@ export const useRedeem = (
 
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
       const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
+      console.log('allowance', allowance.toString());
+      console.log('collateralAmountInWei', collateralAmountInWei.toString());
+
       if (allowance.lt(collateralAmountInWei)) {
         const tx = await dUsdTokenContract.approve(CONTROLLER_ADDR, collateralAmountInWei);
         await tx.wait();
       }
       dispatch(updateTransactionStatus({ id: 'Approve Controller', status: 'completed' }));
-      
-      const collateralAddr = selectedToken === 'VIC' ? ethers.constants.AddressZero : selectedToken;
       const slip = (1 - slippage)*1000;
 
       tx = await controllerContract.redeem(
         collateralAddr,
         user,
-        dUSDCAmountInWei,
-        collateralAmountInWei.mul(slip).div(1000),
+        collateralAmountInWei,
+        dUSDCAmountInWei.mul(slip).div(1000),
         2000000000
       );
       await tx.wait();

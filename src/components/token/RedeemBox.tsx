@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
+import { useWeb3ModalProvider, useWeb3ModalState } from '@web3modal/ethers5/react';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import SelectTokenPopup from './SelectTokenPopup';
@@ -28,6 +28,8 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
   const [network, setNetwork] = useState<number>(89);
   const [signer, setSigner] = useState<ethers.Signer>();
 
+  const { open, selectedNetworkId } = useWeb3ModalState();
+
   const { redeem, error } = useRedeem(
     () => signer,
     () => selectedTokenSymbol,
@@ -41,9 +43,9 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
   let token: Token | undefined;
   let ethersProvider: ethers.providers.Web3Provider;
 
-  const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
-    setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId === 89);
+  const handleNetworkChange = () => {
+    setNetwork(Number(selectedNetworkId));
+    setIsViction(Number(selectedNetworkId) === 89);
   };
 
   if (walletProvider) {
@@ -54,8 +56,7 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({slippage, userBalances, tokenPrice
   useEffect(() => {
     if (walletProvider) {
       setIsConnected(true);
-      ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-      ethersProvider.getNetwork().then(handleNetworkChange).catch(console.error);
+      handleNetworkChange();
     } else {
       setIsConnected(false);
     }

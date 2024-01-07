@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
+import { useWeb3ModalProvider, useWeb3ModalState } from '@web3modal/ethers5/react';
 import Spinner from '@/ui/Spinner';
 import ArrowDown from '@/ui/ArrowDown';
 import { useTransfer } from '@/hooks/useTransfer';
@@ -29,6 +29,9 @@ const TransferBox: React.FC<TransferBoxProps> = ({userBalances}) => {
   const [network, setNetwork] = useState<number>(89);
   const [signer, setSigner] = useState<ethers.Signer>();
 
+  let { open, selectedNetworkId } = useWeb3ModalState();
+  console.log("selectedNetworkId: ", selectedNetworkId);
+
   const { transfer, error } = useTransfer(
     () => signer,
     () => destinationAmount,
@@ -42,9 +45,9 @@ const TransferBox: React.FC<TransferBoxProps> = ({userBalances}) => {
   };
   let ethersProvider: ethers.providers.Web3Provider;
 
-  const handleNetworkChange = (newNetwork: ethers.providers.Network) => {
-    setNetwork(newNetwork.chainId);
-    setIsViction(newNetwork.chainId == 89); 
+  const handleNetworkChange = () => {
+    setNetwork(Number(selectedNetworkId));
+    setIsViction(Number(selectedNetworkId) == 89); 
   };
 
   if (walletProvider) {
@@ -55,12 +58,11 @@ const TransferBox: React.FC<TransferBoxProps> = ({userBalances}) => {
   useEffect(() => {
     if (walletProvider) {
       setIsConnected(true);
-      ethersProvider = new ethers.providers.Web3Provider(walletProvider);
-      ethersProvider.getNetwork().then(handleNetworkChange).catch(console.error);
+      handleNetworkChange();
     } else {
       setIsConnected(false);
     }
-  }, [walletProvider, network]);
+  }, [walletProvider, network, selectedNetworkId]);
 
   const handleTransferAmount = (amount: string) => {
     setIsLoading(true);
@@ -76,7 +78,11 @@ const TransferBox: React.FC<TransferBoxProps> = ({userBalances}) => {
   }
 
   const fetchBalance = () => {
-    return userBalances.DUSD
+    if (Number(selectedNetworkId) == 89) {
+      return userBalances.DUSD;
+    } else {
+      return userBalances.DUSD_AVAX;
+    }
   }
 
   const handleFullBalance = () => {
