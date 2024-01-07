@@ -6,8 +6,8 @@ export interface UserBalance {
 }
 
 export interface Position {
+  token: string;
   amount: number;
-  entryPrice: number;
 }
 
 export interface PositionsState {

@@ -6,9 +6,13 @@ import {
   ARB_FUTURES_ABI,
   MULTICALL_ABI,
   ERC20_ABI,
+  DAI_VAULT_ADDR,
+  ETH_VAULT_ADDR,
+  VIC_VAULT_ADDR,
 } from '../constants/constants';
 import { tokenList } from '../constants/tokenlist';
 import { ethers } from 'ethers';
+import { displayTwoDecimalPlaces } from '../displayTwoDecimalPlaces';
 
 type ReturnDataType = {
   amount: ethers.BigNumber;
@@ -34,8 +38,16 @@ export async function initializeStore(userAddress: string) {
   let positions: PositionsState = {
     positions: [
       {
+        token: 'VIC',
         amount: 0,
-        entryPrice: 0,
+      },
+      {
+        token: 'DAI',
+        amount: 0,
+      },
+      {
+        token: 'ETH',
+        amount: 0,
       },
     ],
   };
@@ -98,9 +110,14 @@ export async function initializeStore(userAddress: string) {
         vicCalls.push([tokenAddr, calldata]);
       }
     }
-    const positionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [userAddress]);
+
+    const vicPositionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [VIC_VAULT_ADDR]);
+    const daiPositionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [DAI_VAULT_ADDR]);
+    const ethPositionCalldata = arbFutures.interface.encodeFunctionData('getPosition', [ETH_VAULT_ADDR]);
     const arbSupplyCalldata = arbDusdContract.interface.encodeFunctionData('totalSupply', []);
-    arbCalls.push([ARB_FUTURES_ADDR, positionCalldata]);
+    arbCalls.push([ARB_FUTURES_ADDR, vicPositionCalldata]);
+    arbCalls.push([ARB_FUTURES_ADDR, daiPositionCalldata]);
+    arbCalls.push([ARB_FUTURES_ADDR, ethPositionCalldata]);
     arbCalls.push([ARB_DUSD_ADDR, arbSupplyCalldata]);
 
     const vicRes = await vicMulticall.callStatic.aggregate(vicCalls);
@@ -112,14 +129,19 @@ export async function initializeStore(userAddress: string) {
       const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], data);
       return decoded[0];
     });
-    const positionDecodedData = ethers.utils.defaultAbiCoder.decode(
-      ['int256', 'uint256'], arbRes[1][0]
-    );
+    for (let i = 0; i < 3; i++) {
+      const positionDecodedData = ethers.utils.defaultAbiCoder.decode(
+        ['int256', 'uint256'], arbRes[1][i]
+      );
+      console.log('positionDecodedData', positionDecodedData);
+      positions.positions[i].amount = displayTwoDecimalPlaces(Number(ethers.utils.formatEther(positionDecodedData[0])));
+      // positions.positions[i].entryPrice = displayTwoDecimalPlaces(Number(ethers.utils.formatEther(positionDecodedData[1])));
+    }
+
     const arbSupplyDecodedData = ethers.utils.defaultAbiCoder.decode(
-      ['uint256'], arbRes[1][1]
+      ['uint256'], arbRes[1][3]
     );
 
-    console.log('positionDecodedData', positionDecodedData);
     console.log('arbSupplyDecodedData', arbSupplyDecodedData);
 
     userBalances = {
@@ -127,15 +149,6 @@ export async function initializeStore(userAddress: string) {
       ETH: Number(ethers.utils.formatEther(vicDecodedData[1])),
       DAI: Number(ethers.utils.formatEther(vicDecodedData[2])),
       DUSD: Number(ethers.utils.formatEther(vicDecodedData[3])),
-    };
-
-    positions = {
-      positions: [
-        {
-          amount: 0,
-          entryPrice: 0,
-        },
-      ],
     };
 
     dusdSupplyInfo = {

@@ -40,7 +40,7 @@ export const PieChart: React.FC<PieChartProps> = ({ data }) => {
             justify: false,
             translateX: 0,
             translateY: 56,
-            itemsSpacing: 30,
+            itemsSpacing: 40,
             itemWidth: 50,
             itemHeight: 18,
             itemDirection: "left-to-right",

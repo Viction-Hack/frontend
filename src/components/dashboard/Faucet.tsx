@@ -37,12 +37,12 @@ export default function Faucet() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mx-auto mb-3 w-2/5 h-auto">
-      <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 w-full">
-        <div className="flex flex-row items-start grid grid-cols-6 px-1 py-1">
-          <div className="text-lg font-medium text-gray-900 mb-10">Faucet</div>
+    // <div className="flex flex-col justify-center items-center mx-auto mb-3 w-2/5 h-auto">
+      <div className="w-full">
+        <div className="px-4 py-5 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Faucet</h3>
         </div>
-        <div>
+        <div className='px-4'>
           {isConnected && (
               <button 
                 className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
@@ -55,6 +55,6 @@ export default function Faucet() {
           }
         </div>
       </div>
-    </div>
+    // </div>
   )
 }

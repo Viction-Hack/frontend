@@ -5,8 +5,8 @@ import { useTable, Column } from 'react-table';
 import { PositionsState } from '@/utils/store/features/types';
 
 interface TableData {
+  token: string;
   amount: string;
-  entryPrice: string;
 }
 
 interface CollateralTableProps {
@@ -17,12 +17,12 @@ const CollateralTable: React.FC<CollateralTableProps> = ({ positions }) => {
   const columns: Column<TableData>[] = useMemo(
     () => [
       {
-        Header: 'Amount',
-        accessor: 'amount',
+        Header: 'Token',
+        accessor: 'token',
       },
       {
-        Header: 'EntryPrice',
-        accessor: 'entryPrice',
+        Header: 'Amount',
+        accessor: 'amount',
       },
     ],
     []
@@ -30,10 +30,9 @@ const CollateralTable: React.FC<CollateralTableProps> = ({ positions }) => {
 
   const data = useMemo(() => {
     return positions.positions.map(position => {
-      const price = position.entryPrice;
       return {
+        token: `${position.token}`,
         amount: `${position.amount} USD`,
-        entryPrice: `$${price.toLocaleString('en-US', { maximumFractionDigits: 2 })}`,
       };
     });
   }, [positions]);
