@@ -74,6 +74,34 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-green-200  dark:bg-gray-700">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-800 dark:text-white">
+              Technologies & Partnerships
+            </h2>
+            <p className="mx-auto mt-4 max-w-[700px] text-gray-600 dark:text-gray-300 md:text-xl">
+              Cutting-edge technologies and strategic partnerships for enhanced performance and UX.
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row justify-center items-center mt-12 space-y-8 md:space-y-0 md:space-x-8">
+            <div className="flex flex-col items-center bg-white shadow-lg rounded-lg p-10 mx-5 w-1/2 h-1/2 hover:bg-gray-100">
+              <Image src="/layerzero.svg" alt="LayerZero Logo" width={100} height={100} />
+              <h3 className="mt-4 text-xl font-semibold text-gray-700 dark:text-white">LayerZero</h3>
+              <p className="mt-2 text-center text-gray-500 dark:text-gray-300">
+                Integrating with LayerZero for seamless cross-chain communication and interoperability.
+              </p>
+            </div>
+            <div className="flex flex-col items-center bg-white shadow-lg rounded-lg p-10 mx-5 w-1/2 h-1/2 hover:bg-gray-100">
+              <Image src="/viction.svg" alt="Viction Logo" width={160} height={160} />
+              <h3 className="mt-4 text-xl font-semibold text-gray-700 dark:text-white">Viction</h3>
+              <p className="mt-2 text-center text-gray-500 dark:text-gray-300">
+                Leverages state-of-art technology of Viction to enhance the financial ecosystem and user experience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       </main>
       <Footer />
     </>

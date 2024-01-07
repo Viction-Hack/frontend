@@ -13,7 +13,7 @@ interface PieChartProps {
 
 export const PieChart: React.FC<PieChartProps> = ({ data }) => {
   return (
-    <div style={{ width: '300px', height: '250px' }}>
+    <div style={{ width: '420px', height: '350px' }}>
       <ResponsivePie
         data={data}
         sortByValue
@@ -42,16 +42,16 @@ export const PieChart: React.FC<PieChartProps> = ({ data }) => {
             translateY: 56,
             itemsSpacing: 40,
             itemWidth: 50,
-            itemHeight: 18,
+            itemHeight: 20,
             itemDirection: "left-to-right",
-            symbolSize: 18,
+            symbolSize: 20,
             symbolShape: "circle",
           },
         ]}
         theme={{
           tooltip: {
             container: {
-              fontSize: "10px",
+              fontSize: "12px",
             },
           },
         }}

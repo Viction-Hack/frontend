@@ -23,8 +23,8 @@ export default function VusdBox() {
             <p className="text-l font-medium">Total Stablecoin Minted by Chains</p>
             <PieChart data={data} />  
           </div>
-          <div className="flex flex-col px-10 py-5 sm:gap-4 sm:px-6 mr-10">
-            <p className="text-l font-medium">Total Collateral Position in protocol</p>
+          <div className="flex flex-col px-10 py-5 sm:gap-4 sm:px-6 w-full">
+            <p className="text-l font-medium">Total Collateral Position</p>
             <CollateralTable positions={positions} />
           </div>
         </div>
