@@ -44,9 +44,9 @@ export const useMint = (
       const controllerContract = new ethers.Contract(CONTROLLER_ADDR, CONTROLLER_ABI, signer);
       let tx;
 
-      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0').div(1e10);
+      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0');
       console.log('collateralAmountInWei', collateralAmountInWei.toString());
-      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDCAmount?.toString() || '0').div(1e10);
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDCAmount?.toString() || '0');
       console.log('dUSDCAmountInWei', dUSDCAmountInWei.toString());
       if (selectedToken === 'VIC') {
         dispatch(addTransaction({ id: 'Mint DUSD', status: 'pending' }));
@@ -70,7 +70,7 @@ export const useMint = (
         }
         dispatch(updateTransactionStatus({ id: 'Approve Controller', status: 'completed' }));
         const slip = (1 - slippage)*1000;
-
+        console.log("collatoralContract.address", collateralTokenContract.address);
         tx = await controllerContract.mint(
           collateralTokenContract.address,
           user,

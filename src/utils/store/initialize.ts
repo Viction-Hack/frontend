@@ -75,7 +75,7 @@ export async function initializeStore(userAddress: string) {
     };
   }
 
-  const ARB_DUSD_ADDR = '0xf40E719D4F215712D9DC9a0568791E408c71760F';
+  const ARB_DUSD_ADDR = '0x5Ef6A635513E6f2Af746a85f4a51Af774a5804BC';
 
   
   // 1. Get user balances through multicall
@@ -153,10 +153,10 @@ export async function initializeStore(userAddress: string) {
 
     userBalances = {
       VIC: Number(ethers.utils.formatEther(vicDecodedData[0])),
-      ETH: Number(ethers.utils.formatEther(vicDecodedData[1])),
-      DAI: Number(ethers.utils.formatEther(vicDecodedData[2])),
-      DUSD: Number(ethers.utils.formatEther(vicDecodedData[3].mul(1e10))),
-      DUSD_AVAX: Number(ethers.utils.formatEther(arbDusdBalanceDecodedData[0].mul(1e10))),  
+      DAI: Number(ethers.utils.formatEther(vicDecodedData[1])),
+      ETH: Number(ethers.utils.formatEther(vicDecodedData[2])),
+      DUSD: Number(ethers.utils.formatEther(vicDecodedData[3])),
+      DUSD_AVAX: Number(ethers.utils.formatEther(arbDusdBalanceDecodedData[0])),  
     };
 
     dusdSupplyInfo = {

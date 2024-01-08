@@ -39,13 +39,13 @@ export const useTransfer = (
     const dstChainId = chainId === 89 ? 10106 : 10196;
     let dusdAddr = DUSD_ADDR;
     if (chainId != 89) {
-      dusdAddr = '0xf40E719D4F215712D9DC9a0568791E408c71760F';
+      dusdAddr = '0x5Ef6A635513E6f2Af746a85f4a51Af774a5804BC';
     }
 
     try {
       
       let tx;
-      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0').div(1e10);
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
       const dUsdTokenContract = new ethers.Contract(dusdAddr, ERC20_ABI, signer);
 
       dispatch(addTransaction({ id: 'Approve Router', status: 'pending' }));

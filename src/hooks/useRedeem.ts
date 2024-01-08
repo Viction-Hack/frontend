@@ -36,11 +36,11 @@ export const useRedeem = (
     let collateralAddr = '';
     console.log('selectedToken', selectedToken);
     if (selectedToken === 'VIC') {
-      collateralAddr = '0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a';
+      collateralAddr = '0xe65c74456282E63Adc7f43d8a69A0D6BAD0005b6';
     } else if (selectedToken === 'ETH') {
-      collateralAddr = '0xA5f8B90975C6f3b15c90CbC75b44F10300b42bbe';
+      collateralAddr = '0xfE4BE182E67a7eb163ADE9f7c2EE636E81Ea2112';
     } else if (selectedToken === 'DAI') {
-      collateralAddr = '0xEC3Ac809B27da7cdFC306792DA72aA896ed865eD';
+      collateralAddr = '0xa087E9D30010348a243354E13512f3e06CA7Ad49';
     }
 
     if (!signer) {
@@ -54,8 +54,8 @@ export const useRedeem = (
       dispatch(addTransaction({ id: 'Approve Controller', status: 'pending' }));
       dispatch(addTransaction({ id: 'Redeem Collateral', status: 'pending' }));
 
-      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0').div(1e10);
-      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0').div(1e10);
+      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0');
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
 
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
       const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);

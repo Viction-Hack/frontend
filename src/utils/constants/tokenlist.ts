@@ -12,28 +12,28 @@ export const tokenList = () => {
     {
       name: "Viction Coin",
       symbol: "VIC",
-      address: "0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a",
+      address: "0xe65c74456282E63Adc7f43d8a69A0D6BAD0005b6",
       decimals: 18,
       logoUrl: "/viction.svg"
     },
     {
       name: "Dai Stablecoin",
       symbol: "DAI",
-      address: "0xEC3Ac809B27da7cdFC306792DA72aA896ed865eD",
+      address: "0xa087E9D30010348a243354E13512f3e06CA7Ad49",
       decimals: 18,
       logoUrl: "/dai.svg"
     },
     {
       name: "Ethereum",
       symbol: "ETH",
-      address: "0xA5f8B90975C6f3b15c90CbC75b44F10300b42bbe",
+      address: "0xfE4BE182E67a7eb163ADE9f7c2EE636E81Ea2112",
       decimals: 18,
       logoUrl: "/ethereum.svg"
     },
     {
       name: "Doldrums USD",
       symbol: "DUSD",
-      address: "0x46F96fB34Ac52DaE43E7FC441F429d2F5BcCDf52",
+      address: "0x2dF5dc099e89EF6F1B92A5a9a744D562586C61d7",
       decimals: 18,
       logoUrl: "/icon.svg"
     }

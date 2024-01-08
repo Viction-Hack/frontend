@@ -1,7 +1,7 @@
 import { tokenList } from "./tokenlist";
 
 const tokensList = tokenList();
-export const CONTROLLER_ADDR = '0x31C6d1884E408B63A910eF547afdA1180d919e13';
+export const CONTROLLER_ADDR = '0x6379b2D963e1E3b92067C65E3f96c3469F1B920e';
 export const CONTROLLER_ABI = [
     {
       "type":"function",
@@ -48,7 +48,7 @@ export const CONTROLLER_ABI = [
 export const VICTION_DAI_ADDR = tokensList[1].address;
 export const VICTION_ETH_ADDR = tokensList[2].address;
 export const DUSD_ADDR = tokensList[3].address;
-export const ARB_VIC_ADDR = "0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a";
+export const ARB_VIC_ADDR = "0xe65c74456282E63Adc7f43d8a69A0D6BAD0005b6";
 
 export const ERC20_ABI = [
     {
@@ -122,7 +122,7 @@ export const ERC20_ABI = [
     },
 ];
 
-export const ARB_FUTURES_ADDR = '0xf8efeBAec7C3a37106e14a8d4994Db730dDbC08F';
+export const ARB_FUTURES_ADDR = '0xa8F27a15F7188A8938ed15b4AF1fd3f2E47C8848';
 export const ARB_FUTURES_ABI = [
   {
     "inputs": [
@@ -145,9 +145,9 @@ export const ARB_FUTURES_ABI = [
   },
 ];
 
-export const VIC_VAULT_ADDR = '0xD0d5E2931C9134b6E8DDe9Be67E814f4bFF50bC5';
-export const DAI_VAULT_ADDR = '0x109Eca9F83C18Da5563b5c978E421444c8A37E55';
-export const ETH_VAULT_ADDR = '0xAdbb76D0454De0365a9c1D6a93DdAD7CCa572BbA';
+export const VIC_VAULT_ADDR = '0x77a451ea43C5EdF31a6d22C1FA22DEbF5D32e0A3';
+export const DAI_VAULT_ADDR = '0xa5b210F54537afeB39314a31a8BD594B0ecBB6b4';
+export const ETH_VAULT_ADDR = '0x493925fbf88579E8B8C76BC4695e558588F8A57D';
 
 export const VICTION_MULTICALL_ADDR = '0xb35042A41B49c5Fe09c8c3946650Cc3d73a22074';
 export const ARB_MULTICALL_ADDR = '0xAbE7DCBf580d485f669805FF42C31df2Ed3BE4a5';
@@ -230,7 +230,7 @@ export const MULTICALL_ABI = [
   }
 ]
 
-export const FAUCET_ADDR = '0xD3e1b64B8C5D035A6dBda52FD420132D1bB90BB2';
+export const FAUCET_ADDR = '0x328D0E5E9a1D51a3100987C459cCa2833E3bd077';
 export const FAUCET_ABI = [
   {
     "inputs": [],
