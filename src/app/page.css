@@ -1,0 +1,30 @@
+.main-section {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,  /* 시작 지점에서 완전한 검은색 */
+    rgba(0, 0, 0, 0) 10%, /* 끝 지점에서 완전한 투명 */
+    rgba(0, 0, 0, 1)   /* 끝 지점에서 완전한 검은색 */
+  ), url('/background.gif'); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  /* location : little bit higher than bottom */
+  background-position: center 85% 
+}
+
+.main-under {
+  background: linear-gradient(
+    to bottom, 
+    rgba(0, 0, 0, 1) 30%,  /* 시작 지점에서 검은색 */
+    rgba(0, 0, 0, 0) 40%,  /* 끝 지점에서 완전한 투명 */
+    rgba(0, 0, 0, 1)  /* 끝 지점에서 완전한 투명 */
+  ), url('/background2.png') no-repeat center 85%;
+}
+
+.pages {
+  background: linear-gradient(
+    to bottom, 
+    rgba(0, 0, 0, 1) 15%,  /* 시작 지점에서 검은색 */
+    rgba(0, 0, 0, 0) 60%,  /* 끝 지점에서 완전한 투명 */
+    rgba(0, 0, 0, 1)  /* 끝 지점에서 완전한 투명 */
+  ), url('/background2.png') no-repeat fixed;
+}

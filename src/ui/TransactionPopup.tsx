@@ -35,7 +35,7 @@ const TransactionPopup: React.FC<TransactionPopupProps> = ({ isOpen, onClose }) 
             Object.entries(transactionStatuses).map(([id, status]) => (
               <div key={id} className="flex flex-row justify-between mb-2">
                 <p className='text-lg font-semibold'>- Tx: {id}</p>
-                <div className={`py-2 px-4 ${status === 'completed' ? 'bg-green-500' : status === 'failed' ? 'bg-red-500' : 'bg-yellow-500'} text-white font-bold rounded-lg`}>
+                <div className={`py-2 px-4 ${status === 'completed' ? 'bg-blue-500' : status === 'failed' ? 'bg-red-500' : 'bg-yellow-500'} text-white font-bold rounded-lg`}>
                   {status}
                 </div>
               </div>

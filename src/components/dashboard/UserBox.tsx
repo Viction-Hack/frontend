@@ -16,7 +16,7 @@ export default function UserBox() {
           <dl>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:px-6">
               <div className="flex flex-row">
-                <img className="h-10 w-10 mr-5 rounded-full" src="/icon.svg" alt="" />
+                <img className="h-10 w-10 mr-5 rounded-full" src="/doldrums_icon.png" alt="" />
                 <dt className="text-l font-medium text-gray-500 mt-2">DUSD</dt>
               </div>
               <div className="mt-2 text-l justify-center text-gray-900 sm:col-start-3">
@@ -44,10 +44,10 @@ export default function UserBox() {
                 {displayTwoDecimalPlaces(userBalance.DAI)} DAI
               </div>
             </div>
-            <Faucet />
           </dl>
         </div>
       </div>
+      <Faucet />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client";
 export default function ChainlistHeader() {
   return (
-    <header className="px-4 lg:px-6 h-14 flex justify-center text-black font-bold bg-[#bbf7d0] items-center">
+    <header className="px-4 lg:px-6 h-14 flex justify-center text-white font-bold bg-gray-500 items-center">
       Add Viction Testnet Network in your wallet before the interaction!
       <AddChainButton />
     </header>
@@ -12,7 +12,7 @@ const AddChainButton = () => {
   const addVictionTestnet = async () => {
     try {
       if (window.ethereum) {
-        const chainId: number = 89; 
+        const chainId: number = 89;
 
         await window.ethereum.request({
           method: 'wallet_addEthereumChain',
@@ -38,6 +38,6 @@ const AddChainButton = () => {
   };
 
   return (
-    <button className="flex p-2 ml-5 bg-white rounded-xl hover:bg-gray-300" onClick={addVictionTestnet}>Add Viction Testnet</button>
+    <button className="flex p-2 ml-5 bg-white text-black rounded-xl hover:bg-blue-300" onClick={addVictionTestnet}>Add Viction Testnet</button>
   );
 };

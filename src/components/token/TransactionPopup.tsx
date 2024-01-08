@@ -31,7 +31,7 @@ interface TransactionPopupProps {
 //             {slippages.map((slippage) => (
 //               <button
 //                 key={slippage}
-//                 className={`py-2 px-4 ${selectedSlippage === slippage ? 'bg-green-500' : 'bg-gray-300'} text-white w-1/4 font-bold rounded-lg`}
+//                 className={`py-2 px-4 ${selectedSlippage === slippage ? 'bg-blue-500' : 'bg-blue-300'} text-white w-1/4 font-bold rounded-lg`}
 //                 onClick={() => handleSlippageClick(slippage)}
 //               >
 //                 {slippage}%

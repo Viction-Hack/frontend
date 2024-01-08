@@ -45,7 +45,7 @@ const SelectTokenPopup: React.FC<SelectTokenPopupProps> = ({ tokens, isOpen, use
           {tokens.map((token) => (
             <li
               key={token.name}
-              className={`flex items-center justify-between p-2 hover:bg-gray-100 rounded-md ${selectedToken === token.name ? 'bg-gray-200' : ''}`}
+              className={`flex items-center justify-between p-2 hover:bg-blue-100 rounded-md ${selectedToken === token.name ? 'bg-blue-200' : ''}`}
               onClick={() => handleTokenClick(token.symbol)}
             >
               <div className="flex items-center">
