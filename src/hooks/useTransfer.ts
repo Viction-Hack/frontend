@@ -45,7 +45,7 @@ export const useTransfer = (
     try {
       
       let tx;
-      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0').div(1e10);
       const dUsdTokenContract = new ethers.Contract(dusdAddr, ERC20_ABI, signer);
 
       dispatch(addTransaction({ id: 'Approve Router', status: 'pending' }));

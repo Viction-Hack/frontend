@@ -132,6 +132,7 @@ export async function initializeStore(userAddress: string) {
       const decoded = ethers.utils.defaultAbiCoder.decode(['uint256'], data);
       return decoded[0];
     });
+    console.log("vicDecodedData", vicDecodedData);
     for (let i = 0; i < 3; i++) {
       const positionDecodedData = ethers.utils.defaultAbiCoder.decode(
         ['int256', 'uint256'], arbRes[1][i]
@@ -154,8 +155,8 @@ export async function initializeStore(userAddress: string) {
       VIC: Number(ethers.utils.formatEther(vicDecodedData[0])),
       ETH: Number(ethers.utils.formatEther(vicDecodedData[1])),
       DAI: Number(ethers.utils.formatEther(vicDecodedData[2])),
-      DUSD: Number(ethers.utils.formatEther(vicDecodedData[3])),
-      DUSD_AVAX: Number(ethers.utils.formatEther(arbDusdBalanceDecodedData[0])),  
+      DUSD: Number(ethers.utils.formatEther(vicDecodedData[3].mul(1e10))),
+      DUSD_AVAX: Number(ethers.utils.formatEther(arbDusdBalanceDecodedData[0].mul(1e10))),  
     };
 
     dusdSupplyInfo = {

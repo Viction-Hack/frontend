@@ -34,6 +34,7 @@ export const useRedeem = (
     const user = await signer?.getAddress();
 
     let collateralAddr = '';
+    console.log('selectedToken', selectedToken);
     if (selectedToken === 'VIC') {
       collateralAddr = '0x24c470BF5Fd6894BC935d7A4c0Aa65f6Ad8E3D5a';
     } else if (selectedToken === 'ETH') {
@@ -51,10 +52,10 @@ export const useRedeem = (
       const controllerContract = new ethers.Contract(CONTROLLER_ADDR, CONTROLLER_ABI, signer);
       let tx;
       dispatch(addTransaction({ id: 'Approve Controller', status: 'pending' }));
-      dispatch(addTransaction({ id: 'Mint DUSD', status: 'pending' }));
+      dispatch(addTransaction({ id: 'Redeem Collateral', status: 'pending' }));
 
-      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0');
-      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0');
+      const collateralAmountInWei = ethers.utils.parseEther(collateralAmount?.toString() || '0').div(1e10);
+      const dUSDCAmountInWei = ethers.utils.parseEther(dUSDAmount?.toString() || '0').div(1e10);
 
       const dUsdTokenContract = new ethers.Contract(DUSD_ADDR, ERC20_ABI, signer);
       const allowance = await dUsdTokenContract.allowance(user, CONTROLLER_ADDR);
@@ -77,14 +78,14 @@ export const useRedeem = (
       );
       await tx.wait();
       dispatch(deleteTransaction('Approve Controller'));
-      dispatch(updateTransactionStatus({ id: 'Mint DUSD', status: 'completed' }));
+      dispatch(updateTransactionStatus({ id: 'Redeem Collateral', status: 'completed' }));
       await delay(2000);
-      dispatch(deleteTransaction('Mint DUSD'));
+      dispatch(deleteTransaction('Redeem Collateral'));
 
-      console.log('Minting successful');
+      console.log('Redeeming successful');
     } catch (err) {
       if (err instanceof Error) {
-        console.error('Minting failed', err.message);
+        console.error('Redeeming failed', err.message);
         setError(err);
       }
     }
