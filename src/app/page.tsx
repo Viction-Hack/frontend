@@ -76,7 +76,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex flex-col justify-between space-y-4">
-                  <Image src="/dollar.png" alt="Dollar Image" width={600} height={600} />
+                  <Image src="/architecture.svg" alt="Architecture Image" width={600} height={600} />
                 </div>
               </div>
             </div>
