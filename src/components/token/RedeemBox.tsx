@@ -96,8 +96,8 @@ const RedeemBox: React.FC<RedeemBoxProps> = ({ slippage, userBalances, tokenPric
   };
 
   const handleFullBalance = () => {
-    setCollateralAmount(fetchBalance(selectedTokenSymbol).toString());
-    setRedeemAmount(fetchBalance('DUSD'));
+    setCollateralAmount(fetchBalance('DUSD').toString());
+    setRedeemAmount(fetchBalance(selectedTokenSymbol));
   }
 
   // for testing
