@@ -17,6 +17,6 @@ export default function CoinsIcon(props: any) {
     //   <path d="M7 6h1v4" />
     //   <path d="m16.71 13.88.7.71-2.82 2.82" />
     // </svg>
-    <img src="/icon.svg" alt="Coins" className="h-6 w-6 rounded-full mr-2" />
+    <img src="/doldrums_icon.png" alt="Coins" className="h-6 w-6 rounded-full mr-2" />
   )
 }

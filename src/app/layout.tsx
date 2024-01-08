@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Doldrums Protocol',
   description: 'Doldrums is a protocol for issuing a Delta-Neutral Stablecoin.',
+  icons: {
+    icon: '/doldrums_icon.png'
+  }
 }
 
 export default function RootLayout({

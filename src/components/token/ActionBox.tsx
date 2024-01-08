@@ -44,7 +44,7 @@ export default function ActionBox() {
 
   return (
     <div className="flex flex-col justify-center items-center mx-auto mb-3">
-      <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 m-3 w-1/3">
+      <div className="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6 m-3">
         <div className="flex flex-row items-start grid grid-cols-6 px-1 py-1">
           <button className={`text-lg font-medium ${selectedMintTextColor}`} onClick={handleMintOrRedeem} disabled={isMinting}>Mint</button>
           <button className={`text-lg font-medium ${selectedRedeemTextColor}`} onClick={handleMintOrRedeem} disabled={!isMinting}>Redeem</button>
@@ -65,9 +65,9 @@ export default function ActionBox() {
           />
         </div>
         <div>
-          {isMinting ? 
-            <MintBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices} /> 
-            : <RedeemBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices}/> 
+          {isMinting ?
+            <MintBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices} />
+            : <RedeemBox slippage={selectedSlippage} userBalances={userBalances} tokenPrices={prices} />
           }
         </div>
       </div>

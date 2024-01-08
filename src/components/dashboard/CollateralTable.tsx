@@ -13,7 +13,7 @@ interface CollateralTableProps {
   positions: PositionsState;
 }
 
-let tokenPrices : TokenPrice = {
+let tokenPrices: TokenPrice = {
   'ETH': 2223,
   'DAI': 1,
   'VIC': 0.821,
@@ -68,13 +68,13 @@ const CollateralTable: React.FC<CollateralTableProps> = ({ positions }) => {
         </div>
         <div className="overflow-x-auto">
           <table {...getTableProps()} className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-green-100">
+            <thead className="bg-darkgold">
               {headerGroups.map((headerGroup, index) => (
                 <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup-${index}`}>
                   {headerGroup.headers.map((column, columnIndex) => (
                     <th
                       {...column.getHeaderProps()}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                       key={`column-${columnIndex}`}
                     >
                       {column.render('Header')}
@@ -87,7 +87,7 @@ const CollateralTable: React.FC<CollateralTableProps> = ({ positions }) => {
               {rows.map((row, rowIndex) => {
                 prepareRow(row);
                 return (
-                  <tr {...row.getRowProps()} key={`row-${rowIndex}`} className="hover:bg-gray-100">
+                  <tr {...row.getRowProps()} key={`row-${rowIndex}`} className="hover:bg-lightgold">
                     {row.cells.map((cell, cellIndex) => (
                       <td
                         {...cell.getCellProps()}

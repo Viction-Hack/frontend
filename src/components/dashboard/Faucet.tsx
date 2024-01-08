@@ -14,7 +14,7 @@ export default function Faucet() {
     () => signer,
   );
 
-  const {walletProvider} = useWeb3ModalProvider();
+  const { walletProvider } = useWeb3ModalProvider();
   let ethersProvider: ethers.providers.Web3Provider;
 
   if (walletProvider) {
@@ -38,23 +38,23 @@ export default function Faucet() {
 
   return (
     // <div className="flex flex-col justify-center items-center mx-auto mb-3 w-2/5 h-auto">
-      <div className="w-full">
-        <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Faucet</h3>
-        </div>
-        <div className='px-4'>
-          {isConnected && (
-              <button 
-                className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
-                disabled={isLoading}
-                onClick={handleTakeFaucet}
-              >
-                {isLoading ? <Spinner /> : 'Get Test Tokens'}
-              </button>
-            )
-          }
-        </div>
+    <div className="w-full bg-white sm:rounded-lg p-3 my-20">
+      <div className="px-4 py-3 sm:px-6">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">Faucet</h3>
       </div>
+      <div className='px-4'>
+        {isConnected && (
+          <button
+            className="w-full h-[40px] rounded-lg shadow-lg text-white text-lg bg-darkgold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-lightgold"
+            disabled={isLoading}
+            onClick={handleTakeFaucet}
+          >
+            {isLoading ? <Spinner /> : 'Get Test Tokens'}
+          </button>
+        )
+        }
+      </div>
+    </div>
     // </div>
   )
 }
