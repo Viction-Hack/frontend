@@ -33,7 +33,7 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-30 dark:border-gray-800 dark:border-gray-800 dark:-950 dark:hover:-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-                  href="#"
+                  href="https://github.com/Viction-Hack/delta-neutral-contract"
                 >
                   Learn more
                 </Link>
@@ -63,7 +63,7 @@ export default function LandingPage() {
                   <div className="flex flex-col gap-2 min-[400px]:flex-row">
                     <Link
                       className="inline-flex h-10 items-center justify-center rounded-md -900 bg-darkgold px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-30 dark:-50 dark:text-gray-900 dark:hover:-50/90 dark:focus-visible:ring-gray-300"
-                      href="#"
+                      href="https://github.com/Viction-Hack/delta-neutral-contract/blob/main/docs/Doldrums_whitepaper.pdf"
                     >
                       Learn More
                     </Link>
